@@ -1,6 +1,8 @@
 [include]
 .*/pages/.*
 .*/components/.*
+mocks/
+types/
 
 [ignore]
 .*/node_modules/.*
@@ -10,4 +12,4 @@
 
 [libs]
 flow-typed
-libtypes/
+lib-types/
