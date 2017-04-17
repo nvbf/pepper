@@ -1,0 +1,32 @@
+{
+  "name": "pepper",
+  "version": "1.0.0",
+  "description": "Web-based overlay for volleyball streaming",
+  "main": "index.js",
+  "repository": "https://tutturen@github.com/nvbf/pepper.git",
+  "author": "VolleyStream <post@volleystream.no>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "eslint": "node ./node_modules/eslint/bin/eslint.js '{components,pages}/**/*.js' -c ./.eslintrc.json",
+    "prettier": "node ./node_modules/prettier/bin/prettier.js --single-quote --trailing-comma all '{components,pages}/**/*.js' --write"
+  },
+  "dependencies": {
+    "next": "^2.1.1",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.2.2",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "eslint": "3.19.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "2.2.0",
+    "eslint-plugin-jsx-a11y": "4.0.0",
+    "eslint-plugin-react": "6.9.0",
+    "prettier": "^1.1.0",
+    "prettier-eslint": "^5.1.0"
+  }
+}
