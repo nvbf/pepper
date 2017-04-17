@@ -5,7 +5,7 @@
 
 import type { Component } from 'react';
 
-declare module "next" {
+declare module 'next' {
   declare type RequestHandler = (req: any, res: any, parsedUrl: any) => Promise<void>;
   declare type NextApp = {
     prepare(): Promise<void>,
@@ -21,46 +21,53 @@ declare module "next" {
     quiet?: boolean,
     staticMarkup?: boolean,
   };
-  declare export default (opts: Options) => NextApp;
+  declare module.exports: (opts: Options) => NextApp;
 }
 
-declare module "next/head" {
-  declare export default Class<Component<void, *, *>>;
+declare module 'next/head' {
+  declare module.exports: Class<Component<void, *, *>>;
 }
 
-declare module "next/link" {
+declare module 'next/link' {
   declare type State = { href: string };
-  declare export default Class<Component<void, State, *>>;
+  declare module.exports: Class<Component<void, State, *>>;
 }
 
-declare module "next/prefetch" {
+declare module 'next/prefetch' {
   declare type State = {
     href: string,
     prefetch?: boolean,
   };
-  declare export var reloadIfPrefetched: any;
+
+  declare interface PrefetchExport {
+    reloadIfPrefetched: any,
+    prefetch(url: string): any,
+    default: Class<Component<void, State, *>>,
+  }
+  declare module.exports: PrefetchExport;
+  /* declare export var reloadIfPrefetched: any;
   declare export function prefetch(url: string): any;
-  declare export default Class<Component<void, State, *>>;
+  declare export default Class<Component<void, State, *>>;*/
 }
 
-declare module "next/router" {
+declare module 'next/router' {
   declare type RouteError = Error & { cancelled: boolean };
   declare type RouteCallback = (url: string) => void;
   declare type RouteErrorCallback = (err: RouteError, url: string) => void;
 
-  declare export default {
-    route: string;
-    pathname: string;
-    query: Object;
-    onRouteChangeStart: ?RouteCallback;
-    onRouteChangeComplete: ?RouteCallback;
-    onRouteChangeError: ?RouteErrorCallback;
-    push(url: string, as: ?string): Promise<boolean>;
-    replace(url: string, as: ?string): Promise<boolean>;
+  declare module.exports: {
+    route: string,
+    pathname: string,
+    query: Object,
+    onRouteChangeStart: ?RouteCallback,
+    onRouteChangeComplete: ?RouteCallback,
+    onRouteChangeError: ?RouteErrorCallback,
+    push(url: string, as: ?string): Promise<boolean>,
+    replace(url: string, as: ?string): Promise<boolean>,
   };
 }
 
-declare module "next/document" {
+declare module 'next/document' {
   declare type Context = {
     pathname: string,
     query: any,
@@ -69,11 +76,21 @@ declare module "next/document" {
     xhr?: any,
     err?: any,
   };
-  declare export var Head: Class<Component<void, *, *>>;
+  declare interface DocumentExports {
+    Head: Class<Component<void, *, *>>,
+    Main: Class<Component<void, *, *>>,
+    NextScript: Class<Component<void, *, *>>,
+    default: Class<Component<void, *, *>> & {
+      getInitialProps: (ctx: Context) => Promise<*>,
+      renderPage(cb: Function): void,
+    },
+  }
+  declare module.exports: DocumentExports;
+  /* declare export var Head: Class<Component<void, *, *>>;
   declare export var Main: Class<Component<void, *, *>>;
   declare export var NextScript: Class<Component<void, *, *>>;
   declare export default Class<Component<void, *, *>> & {
     getInitialProps: (ctx: Context) => Promise<*>;
     renderPage(cb: Function): void;
-  };
+  };*/
 }

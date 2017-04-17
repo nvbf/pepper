@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 
@@ -1440,7 +1440,9 @@ declare module 'eslint/lib/ignored-paths.js' {
   declare module.exports: $Exports<'eslint/lib/ignored-paths'>;
 }
 declare module 'eslint/lib/internal-rules/internal-consistent-docs-description.js' {
-  declare module.exports: $Exports<'eslint/lib/internal-rules/internal-consistent-docs-description'>;
+  declare module.exports: $Exports<
+    'eslint/lib/internal-rules/internal-consistent-docs-description'
+  >;
 }
 declare module 'eslint/lib/internal-rules/internal-no-invalid-meta.js' {
   declare module.exports: $Exports<'eslint/lib/internal-rules/internal-no-invalid-meta'>;
