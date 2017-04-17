@@ -1,0 +1,12 @@
+[include]
+.*/pages/.*
+.*/components/.*
+
+[ignore]
+.*/node_modules/.*
+.*/test/unit/.*
+
+[options]
+
+[libs]
+flow-typed
