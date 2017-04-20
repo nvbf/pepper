@@ -64,7 +64,8 @@ const Dangle = styled.div`
 const Name = styled.span`
   position: absolute;
   left: -400px;
-  width: 300px;
+  width: 320px;
+  font-size: 26px;
 `;
 
 const Position = styled.span`
