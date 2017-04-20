@@ -22,7 +22,6 @@ const NumContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-
 `;
 
 const NameContainer = styled.div`
@@ -65,6 +64,7 @@ const Dangle = styled.div`
 const Name = styled.span`
   position: absolute;
   left: -400px;
+  width: 300px;
 `;
 
 const Position = styled.span`
