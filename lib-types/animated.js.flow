@@ -1,0 +1,63 @@
+type InterpolationConfigType = {
+  inputRange: Array<number>,
+  outputRange: Array<number> | Array<string>,
+  easing?: (input: number) => number,
+  extrapolate?: ExtrapolateType,
+  extrapolateLeft?: ExtrapolateType,
+  extrapolateRight?: ExtrapolateType,
+};
+
+type EndResult = { finished: boolean };
+type EndCallback = (result: EndResult) => void;
+type AnimationConfig = {
+  isInteraction?: boolean,
+};
+
+declare class AnimatedInterpolation {
+  constructor(
+    parent: Animated,
+    interpolation: (input: number) => number | string,
+  ): AnimatedInterpolation,
+
+  addListener(callback: ValueListenerCallback): string,
+
+  removeListener(id: string): void,
+
+  interpolate(config: InterpolationConfigType): AnimatedInterpolation,
+}
+
+declare class AnimatedValue {
+  constructor(value: number): AnimatedValue,
+
+  setValue(value: number): void,
+
+  setOffset(offset: number): void,
+
+  flattenOffset(): void,
+
+  // addListener(callback: ValueListenerCallback): string;
+
+  removeListener(id: string): void,
+
+  removeAllListeners(): void,
+
+  stopAnimation(callback?: ?(value: number) => void): void,
+
+  interpolate(config: InterpolationConfigType): AnimatedInterpolation,
+
+  // animate(animation: Animation, callback: ?EndCallback): void;
+
+  stopTracking(): void,
+
+  // track(tracking: Animated): void,
+}
+
+declare module 'animated/lib/targets/react-dom' {
+  declare module.exports: {
+    Value: typeof AnimatedValue,
+    createAnimatedComponent: any,
+    sequence: any,
+    delay: any,
+    spring: any,
+  };
+}
