@@ -118,7 +118,7 @@ class Bar extends React.Component {
     Animated.sequence([
       Animated.delay(this.props.animDelay),
       Animated.spring(this.state.firstAnim, { toValue: 1, tension: 70 }),
-      Animated.delay(200),
+      Animated.delay(10),
       Animated.spring(this.state.anim, { toValue: 1, tension: 20 }),
     ]).start();
   }
@@ -157,9 +157,7 @@ class Bar extends React.Component {
             {this.props.name}
           </AnimatedName>
         </NameContainer>
-        <PositionContainer
-          libero={this.props.position.toLowerCase() === 'libero'}
-        >
+        <PositionContainer libero={this.props.position.toLowerCase() === 'libero'}>
           <AnimatedPosition
             style={{
               right: this.state.anim.interpolate({
