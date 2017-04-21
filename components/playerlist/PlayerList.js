@@ -7,12 +7,11 @@ import PlayerImage from './PlayerImage';
 
 const Container = styled.div`
   width: 908px;
-  height: 720px;
+  height: 850px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  margin: auto;
 `;
 
 const RowContainer = styled.div`
