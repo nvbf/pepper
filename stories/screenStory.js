@@ -3,8 +3,9 @@ import { storiesOf } from '@kadira/storybook';
 import styled from 'styled-components';
 import Screen from '../components/Screen';
 import PlayerList from '../components/playerlist/PlayerList';
+import Scoreboard from '../components/scoreboard/Scoreboard';
 
-import { Bayern } from '../mocks/teams';
+import { Bayern, ManUnited } from '../mocks/teams';
 const screenStory = storiesOf('Screen', module);
 
 const TestComponent = styled.div`
@@ -19,8 +20,8 @@ const TestComponent = styled.div`
 `;
 
 const TopLeft = <TestComponent background="tomato">TopLeft</TestComponent>;
-const TopMiddle = <TestComponent background="yellowgreen">TopMiddle</TestComponent>;
-const TopRight = <TestComponent background="lightblue">Blue</TestComponent>;
+const TopMiddle = <TestComponent background="transparent">TopMiddle</TestComponent>;
+const TopRight = <TestComponent background="transparent">Blue</TestComponent>;
 const Main = <TestComponent background="lightgray" height={900} width={1920}>Main</TestComponent>;
 
 screenStory.add('normal', () => (
@@ -28,17 +29,27 @@ screenStory.add('normal', () => (
 ));
 
 const GreenMain = (
-  <TestComponent background="yellowgreen" height={900} width={1920}>
+  <TestComponent background="transparent" height={900} width={1920}>
     <PlayerList team={Bayern} />
   </TestComponent>
 );
 
-screenStory.add('playerList 1080p', () => (
-  <Screen
-    size="1080p"
-    topLeft={TopLeft}
-    topMiddle={TopMiddle}
-    topRight={TopRight}
-    main={GreenMain}
-  />
+const bayernScore = {
+  name: Bayern.shortName,
+  logo: Bayern.logo,
+  sets: 2,
+  score: 21,
+  color: '#fefefe',
+};
+const manUnitedScore = {
+  name: ManUnited.shortName,
+  logo: ManUnited.logo,
+  sets: 1,
+  score: 19,
+  color: '#ee0000',
+};
+const Score = <Scoreboard homeTeam={bayernScore} awayTeam={manUnitedScore} showColors showLogos />;
+
+screenStory.add('playerList 1080p with scoreboard', () => (
+  <Screen size="1080p" topLeft={Score} topMiddle={TopMiddle} topRight={TopRight} main={GreenMain} />
 ));

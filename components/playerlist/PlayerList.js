@@ -12,6 +12,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+  font-family: 'Source Sans Pro', sans-serif;
 `;
 
 const RowContainer = styled.div`
