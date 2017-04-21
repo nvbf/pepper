@@ -9,6 +9,7 @@ const theme = {
 const Container = styled.div`
   width: ${props => (props.theme.size === '1080p' ? 1920 : 1280)}px;
   height: ${props => (props.theme.size === '1080p' ? 1080 : 720)}px;
+  background-image: url("https://i.ytimg.com/vi/CF9mQfLZfDg/maxresdefault.jpg");
 `;
 
 const TopRow = styled.div`

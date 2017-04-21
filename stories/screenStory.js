@@ -38,14 +38,14 @@ const bayernScore = {
   name: Bayern.shortName,
   logo: Bayern.logo,
   sets: 2,
-  score: 21,
+  points: 21,
   color: '#fefefe',
 };
 const manUnitedScore = {
   name: ManUnited.shortName,
   logo: ManUnited.logo,
   sets: 1,
-  score: 19,
+  points: 19,
   color: '#ee0000',
 };
 const Score = <Scoreboard homeTeam={bayernScore} awayTeam={manUnitedScore} showColors showLogos />;
