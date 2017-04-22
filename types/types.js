@@ -30,3 +30,8 @@ export type Lineup = {
   six: number,
   libero: number,
 };
+
+export type Gradient = {
+  start: string,
+  stop: string,
+};

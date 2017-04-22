@@ -30,7 +30,7 @@ const ShirtColor = styled.div`
 
 const Name = styled.div`
   letter-spacing: 1px;
-  font-size: 20px;
+  font-size: 24px;
   min-width: 100px;
   max-width: 170px;
   text-transform: uppercase;
