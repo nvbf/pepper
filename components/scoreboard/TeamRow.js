@@ -1,17 +1,18 @@
 // @flow
 import React from 'react';
 import styled from 'styled-components';
+import { darken } from 'polished';
 import Animated from 'animated/lib/targets/react-dom';
-import color from '../../libs/color';
 
 const Row = styled.div`
   width: 100%;
-  height: 38px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   box-sizing: content-box;
   flex-direction: row;
+  overflow: hidden;
 `;
 
 const ImageLogo = styled.img`
@@ -20,12 +21,15 @@ const ImageLogo = styled.img`
 `;
 
 const ShirtColor = styled.div`
-  border-radius: 3px;
+  border-radius: 0px;
   background-color: ${props => props.hex};
-  width: 16px;
-  height: 16px;
-  margin-left: 8px;
-  border: 1px solid #111;
+  background: linear-gradient(
+    ${props => darken(0.15, props.hex)},
+    ${props => props.hex},
+    ${props => darken(0.15, props.hex)}
+  );
+  width: 8px;
+  height: 50px;
 `;
 
 const Name = styled.div`
@@ -40,8 +44,9 @@ const Name = styled.div`
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  color: ${color.darkBlue};
-  font-weight: 800;
+  color: ${props => props.color};
+  text-shadow: 1px 1px #000;
+  font-weight: 400;
 `;
 
 const AnimatedLogo = Animated.createAnimatedComponent(ImageLogo);
@@ -49,6 +54,7 @@ const AnimatedShirtColor = Animated.createAnimatedComponent(ShirtColor);
 
 export type TeamRowProps = {
   color: string,
+  textColor: string,
   logo: string,
   name: string,
   showColor: boolean,
@@ -111,6 +117,16 @@ class TeamRow extends React.Component {
   render() {
     return (
       <Row>
+        <AnimatedShirtColor
+          style={{
+            opacity: this.state.colorAnim,
+            width: this.state.colorAnim.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0, 8],
+            }),
+          }}
+          hex={this.props.color}
+        />
         <AnimatedLogo
           style={{
             opacity: this.state.logoAnim,
@@ -118,25 +134,16 @@ class TeamRow extends React.Component {
               inputRange: [0, 1],
               outputRange: [0, 33],
             }),
-          }}
-          src={this.props.logo}
-          alt="Team Logo"
-        />
-        <AnimatedShirtColor
-          style={{
-            opacity: this.state.colorAnim,
-            width: this.state.colorAnim.interpolate({
-              inputRange: [0, 1],
-              outputRange: [0, 16],
-            }),
-            marginLeft: this.state.colorAnim.interpolate({
+            marginLeft: this.state.logoAnim.interpolate({
               inputRange: [0, 1],
               outputRange: [0, 8],
             }),
           }}
-          hex={this.props.color}
+          src={this.props.logo}
+          alt="Team Logo"
         />
-        <Name>{this.props.name}</Name>
+
+        <Name color={this.props.textColor}>{this.props.name}</Name>
       </Row>
     );
   }

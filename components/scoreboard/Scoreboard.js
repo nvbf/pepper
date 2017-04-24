@@ -1,15 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
+import { darken } from 'polished';
 import TeamRow from './TeamRow';
 import color from '../../libs/color';
 import DoubleTriangle from '../svgs/DoubleTriangle';
+import DoubleShadowTriangle from '../svgs/DoubleShadowTriangle';
 import TriangleDangle from '../svgs/TriangleDangle';
 
 const boardColors = {
-  nameBottom: color.lightGray,
-  nameTop: color.white,
-  setsBottom: color.yellow,
-  setsTop: color.darkYellow,
+  nameBottom: darken(0.8, color.white),
+  nameTop: darken(0.6, color.white),
+  nameText: color.white,
+  setsBottom: color.white,
+  setsTop: color.lightGray,
   pointsBottom: color.darkBlue,
   pointsTop: color.blue,
   pointsText: color.white,
@@ -30,7 +33,7 @@ const Container = styled.div`
 
 const TeamRowContainer = styled.div`
   background: linear-gradient(${boardColors.nameTop}, ${boardColors.nameBottom});
-  padding: 0px 8px;
+  padding: 0px 0px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -91,7 +94,7 @@ export type ScoreboardProps = {
   showColors: boolean,
 };
 
-export function Scoreboard(props: ScoreboardProps) {
+function Scoreboard(props: ScoreboardProps) {
   return (
     <Container>
       <TeamRowContainer>
@@ -101,6 +104,7 @@ export function Scoreboard(props: ScoreboardProps) {
           color={props.homeTeam.color}
           showLogo={props.showLogos}
           showColor={props.showColors}
+          textColor={boardColors.nameText}
         />
         <TeamRow
           name={props.awayTeam.name}
@@ -108,9 +112,10 @@ export function Scoreboard(props: ScoreboardProps) {
           color={props.awayTeam.color}
           showLogo={props.showLogos}
           showColor={props.showColors}
+          textColor={boardColors.nameText}
         />
       </TeamRowContainer>
-      <DoubleTriangle
+      <DoubleShadowTriangle
         leftGradient={{ start: boardColors.nameTop, stop: boardColors.nameBottom }}
         rightGradient={{ start: boardColors.setsTop, stop: boardColors.setsBottom }}
         width={30}
