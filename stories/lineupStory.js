@@ -4,7 +4,7 @@ import { withKnobs, number } from '@kadira/storybook-addon-knobs';
 import { host } from 'storybook-host';
 import VolleyNet from '../components/lineup/VolleyNet';
 import VolleyCourt from '../components/lineup/VolleyCourt';
-import VolleyCourtWithNet from '../components/lineup/VolleyCourtWithNet';
+import Lineup from '../components/lineup/Lineup';
 
 const lineupStory = storiesOf('Lineup', module);
 lineupStory.addDecorator(
@@ -39,11 +39,8 @@ lineupStory.add('net only', () => (
   />
 ));
 
-lineupStory.add('court only', () => <VolleyCourt width={800} height={500} />);
-
 lineupStory.add('court with net', () => (
-  <VolleyCourtWithNet
-    height={numberRange('height', 200, 800)}
-    width={numberRange('width', 300, 1000)}
-  />
+  <VolleyCourt height={numberRange('height', 200, 800)} width={numberRange('width', 300, 1000)} />
 ));
+
+lineupStory.add('full lineup', () => <Lineup />);

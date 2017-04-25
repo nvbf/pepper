@@ -27,28 +27,14 @@ const Net = styled.div`
   border-top: 8px solid white;
 `;
 
-const Antenna = styled.div`
-  position: absolute;
-  left: ${props => (props.right ? '922' : '25')}px;
-  height: 180px;
-  width: 3px;
-  top: -88px;
-  background-color: grey;
-`;
-
-function VolleyNet(props) {
+function VolleyNet(props: { width: number, netHeight: number }) {
   const ratio = props.width / 900;
   const poleHeight = 250 * ratio;
   const heightPercent = props.netHeight / poleHeight;
   return (
     <Container>
       <Pole height={poleHeight} />
-      <Net height={100 * ratio} heightPercent={heightPercent} width={props.width * 1.05}>
-        {/*
-          <Antenna />
-        <Antenna right />
-         */}
-      </Net>
+      <Net height={100 * ratio} heightPercent={heightPercent} width={props.width * 1.05} />
       <Pole height={250 * ratio} />
     </Container>
   );

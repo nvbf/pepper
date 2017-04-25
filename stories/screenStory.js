@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Screen from '../components/Screen';
 import PlayerList from '../components/playerlist/PlayerList';
 import Scoreboard from '../components/scoreboard/Scoreboard';
+import Lineup from '../components/lineup/Lineup';
 
 import { Bayern, ManUnited } from '../mocks/teams';
 const screenStory = storiesOf('Screen', module);
@@ -28,9 +29,15 @@ screenStory.add('normal', () => (
   <Screen topLeft={TopLeft} topMiddle={TopMiddle} topRight={TopRight} main={Main} />
 ));
 
-const GreenMain = (
+const PlayerListMain = (
   <TestComponent background="transparent" height={900} width={1920}>
     <PlayerList team={Bayern} />
+  </TestComponent>
+);
+
+const LineupMain = (
+  <TestComponent background="transparent" height={900} width={1920}>
+    <Lineup />
   </TestComponent>
 );
 
@@ -51,5 +58,21 @@ const manUnitedScore = {
 const Score = <Scoreboard homeTeam={bayernScore} awayTeam={manUnitedScore} showColors showLogos />;
 
 screenStory.add('playerList 1080p with scoreboard', () => (
-  <Screen size="1080p" topLeft={Score} topMiddle={TopMiddle} topRight={TopRight} main={GreenMain} />
+  <Screen
+    size="1080p"
+    topLeft={Score}
+    topMiddle={TopMiddle}
+    topRight={TopRight}
+    main={PlayerListMain}
+  />
+));
+
+screenStory.add('lineup and scoreboard', () => (
+  <Screen
+    size="1080p"
+    topLeft={Score}
+    topMiddle={TopMiddle}
+    topRight={TopRight}
+    main={LineupMain}
+  />
 ));

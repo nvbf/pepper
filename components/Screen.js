@@ -2,9 +2,9 @@
 import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 
-const theme = {
-  size: '1080p',
-};
+const theme = size => ({
+  size: size || '1080p',
+});
 
 const Container = styled.div`
   width: ${props => (props.theme.size === '1080p' ? 1920 : 1280)}px;
@@ -54,7 +54,7 @@ export default function Screen(
   },
 ) {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme(props.size)}>
       <Container>
         <TopRow>
           <TopLeftContainer>
