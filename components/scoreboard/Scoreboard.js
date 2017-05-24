@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { darken } from 'polished';
+import { inject } from 'mobx-react';
 import TeamRow from './TeamRow';
 import color from '../../libs/color';
 import DoubleTriangle from '../svgs/DoubleTriangle';
@@ -169,4 +170,19 @@ Scoreboard.defaultProps = {
   },
 };
 
-export default Scoreboard;
+export default inject(stores => ({
+  homeTeam: {
+    name: stores.homeTeamStore.shortName,
+    logo: stores.homeTeamStore.logo,
+    color: stores.homeTeamStore.color,
+    points: stores.scoreStore.currentPoints.homeTeam,
+    sets: stores.scoreStore.currentSets.homeTeam,
+  },
+  awayTeam: {
+    name: stores.awayTeamStore.shortName,
+    logo: stores.awayTeamStore.logo,
+    color: stores.awayTeamStore.color,
+    points: stores.scoreStore.currentPoints.awayTeam,
+    sets: stores.scoreStore.currentSets.awayTeam,
+  },
+}))(Scoreboard);

@@ -6,6 +6,7 @@ export const Bayern: Team = {
   shortName: 'BAYERN',
   logo: 'https://upload.wikimedia.org/wikipedia/commons/c/c5/Logo_FC_Bayern_M%C3%BCnchen.svg',
   players: BayernPlayers,
+  color: '#ffffff',
 };
 
 export const ManUnited: Team = {
@@ -13,4 +14,5 @@ export const ManUnited: Team = {
   shortName: 'MAN UTD',
   logo: 'https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg',
   players: ManUnitdPlayers,
+  color: '#ff1d00',
 };

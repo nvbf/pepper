@@ -5,8 +5,9 @@ import Screen from '../components/Screen';
 import PlayerList from '../components/playerlist/PlayerList';
 import Scoreboard from '../components/scoreboard/Scoreboard';
 import Lineup from '../components/lineup/Lineup';
-
 import { Bayern, ManUnited } from '../mocks/teams';
+import mockState from '../mocks/state';
+
 const screenStory = storiesOf('Screen', module);
 
 const TestComponent = styled.div`
@@ -59,8 +60,9 @@ const Score = <Scoreboard homeTeam={bayernScore} awayTeam={manUnitedScore} showC
 
 screenStory.add('playerList 1080p with scoreboard', () => (
   <Screen
+    state={mockState}
     size="1080p"
-    topLeft={Score}
+    topLeft={{ id: 'Scoreboard', showLogos: true, showColors: true }}
     topMiddle={TopMiddle}
     topRight={TopRight}
     main={PlayerListMain}

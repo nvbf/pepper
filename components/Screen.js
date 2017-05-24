@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
+import ComponentFinder from './ComponentFinder';
 
 const theme = size => ({
   size: size || '1080p',
@@ -58,7 +59,7 @@ export default function Screen(
       <Container>
         <TopRow>
           <TopLeftContainer>
-            {props.topLeft}
+            <ComponentFinder component={props.topLeft} state={props.state} />
           </TopLeftContainer>
           <TopMiddleContainer>
             {props.topMiddle}
