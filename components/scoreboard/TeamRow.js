@@ -2,6 +2,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { darken } from 'polished';
+import { observer } from 'mobx-react';
 import Animated from 'animated/lib/targets/react-dom';
 
 const Row = styled.div`
@@ -66,7 +67,7 @@ export type TeamRowState = {
   colorAnim: any,
 };
 
-class TeamRow extends React.Component {
+@observer class TeamRow extends React.Component {
   static defaultProps = {
     logo: '',
     name: '',
@@ -78,8 +79,8 @@ class TeamRow extends React.Component {
   constructor(props: TeamRowProps) {
     super(props);
     this.state = {
-      logoAnim: new Animated.Value(1),
-      colorAnim: new Animated.Value(1),
+      logoAnim: new Animated.Value(props.showLogo ? 1 : 0),
+      colorAnim: new Animated.Value(props.showColor ? 1 : 0),
     };
   }
 

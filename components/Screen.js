@@ -2,6 +2,7 @@
 import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import ComponentFinder from './ComponentFinder';
+import DebugControlPanel from './DebugControlPanel';
 
 const theme = size => ({
   size: size || '1080p',
@@ -59,18 +60,19 @@ export default function Screen(
       <Container>
         <TopRow>
           <TopLeftContainer>
-            <ComponentFinder component={props.topLeft} state={props.state} />
+            <ComponentFinder component={props.topLeft} />
           </TopLeftContainer>
           <TopMiddleContainer>
-            {props.topMiddle}
+            <ComponentFinder component={props.topMiddle} />
           </TopMiddleContainer>
           <TopRightContainer>
-            {props.topRight}
+            <ComponentFinder component={props.topRight} />
           </TopRightContainer>
         </TopRow>
         <MainContainer>
-          {props.main}
+          <ComponentFinder component={props.main} />
         </MainContainer>
+        <DebugControlPanel />
       </Container>
     </ThemeProvider>
   );

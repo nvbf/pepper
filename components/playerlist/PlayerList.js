@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { inject } from 'mobx-react';
 import styled from 'styled-components';
 import BarList from './BarList';
 import BigHeader from './BigHeader';
@@ -23,7 +24,7 @@ const RowContainer = styled.div`
   justify-content: space-between;
 `;
 
-class PlayerList extends React.Component {
+export class PlayerList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -94,4 +95,6 @@ PlayerList.propTypes = {
   }).isRequired,
 };
 
-export default PlayerList;
+export default inject(allStores => ({
+  team: allStores.awayTeamStore,
+}))(PlayerList);

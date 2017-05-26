@@ -40,6 +40,7 @@
     "eslint-plugin-react": "6.9.0",
     "flow-bin": "^0.44.1",
     "flow-typed": "^2.0.0",
+    "mobx-react-devtools": "^4.2.13",
     "prettier": "^1.1.0",
     "prettier-eslint": "^5.1.0",
     "storybook-host": "^1.0.14"

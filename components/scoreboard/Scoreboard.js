@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import { darken } from 'polished';
-import { inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import TeamRow from './TeamRow';
 import color from '../../libs/color';
 import DoubleTriangle from '../svgs/DoubleTriangle';
 import DoubleShadowTriangle from '../svgs/DoubleShadowTriangle';
 import TriangleDangle from '../svgs/TriangleDangle';
+import OpacityContainer from '../OpacityContainer';
 
 const boardColors = {
   nameBottom: darken(0.8, color.white),
@@ -93,63 +94,66 @@ export type ScoreboardProps = {
   awayTeam: TeamPoints,
   showLogos: boolean,
   showColors: boolean,
+  isShowing: boolean,
 };
 
 function Scoreboard(props: ScoreboardProps) {
   return (
-    <Container>
-      <TeamRowContainer>
-        <TeamRow
-          name={props.homeTeam.name}
-          logo={props.homeTeam.logo}
-          color={props.homeTeam.color}
-          showLogo={props.showLogos}
-          showColor={props.showColors}
-          textColor={boardColors.nameText}
+    <OpacityContainer isShowing={props.isShowing}>
+      <Container>
+        <TeamRowContainer>
+          <TeamRow
+            name={props.homeTeam.name}
+            logo={props.homeTeam.logo}
+            color={props.homeTeam.color}
+            showLogo={props.showLogos}
+            showColor={props.showColors}
+            textColor={boardColors.nameText}
+          />
+          <TeamRow
+            name={props.awayTeam.name}
+            logo={props.awayTeam.logo}
+            color={props.awayTeam.color}
+            showLogo={props.showLogos}
+            showColor={props.showColors}
+            textColor={boardColors.nameText}
+          />
+        </TeamRowContainer>
+        <DoubleShadowTriangle
+          leftGradient={{ start: boardColors.nameTop, stop: boardColors.nameBottom }}
+          rightGradient={{ start: boardColors.setsTop, stop: boardColors.setsBottom }}
+          width={30}
+          height={100}
         />
-        <TeamRow
-          name={props.awayTeam.name}
-          logo={props.awayTeam.logo}
-          color={props.awayTeam.color}
-          showLogo={props.showLogos}
-          showColor={props.showColors}
-          textColor={boardColors.nameText}
+        <SetsContainer>
+          <SetScore>{props.homeTeam.sets}</SetScore>
+          <SetScore offset>{props.awayTeam.sets}</SetScore>
+        </SetsContainer>
+        <DoubleTriangle
+          leftGradient={{ start: boardColors.setsTop, stop: boardColors.setsBottom }}
+          rightGradient={{ start: boardColors.pointsTop, stop: boardColors.pointsBottom }}
+          width={30}
+          height={100}
         />
-      </TeamRowContainer>
-      <DoubleShadowTriangle
-        leftGradient={{ start: boardColors.nameTop, stop: boardColors.nameBottom }}
-        rightGradient={{ start: boardColors.setsTop, stop: boardColors.setsBottom }}
-        width={30}
-        height={100}
-      />
-      <SetsContainer>
-        <SetScore>{props.homeTeam.sets}</SetScore>
-        <SetScore offset>{props.awayTeam.sets}</SetScore>
-      </SetsContainer>
-      <DoubleTriangle
-        leftGradient={{ start: boardColors.setsTop, stop: boardColors.setsBottom }}
-        rightGradient={{ start: boardColors.pointsTop, stop: boardColors.pointsBottom }}
-        width={30}
-        height={100}
-      />
-      <PointsContainer>
-        <Points>{props.homeTeam.points}</Points>
-        <Points offset>{props.awayTeam.points}</Points>
-      </PointsContainer>
-      <TriangleDangle
-        triangleWidth={30}
-        dangleWidth={6}
-        height={100}
-        dangleGradient={{
-          start: boardColors.nameTop,
-          stop: boardColors.nameBottom,
-        }}
-        triangleGradient={{
-          start: boardColors.pointsTop,
-          stop: boardColors.pointsBottom,
-        }}
-      />
-    </Container>
+        <PointsContainer>
+          <Points>{props.homeTeam.points}</Points>
+          <Points offset>{props.awayTeam.points}</Points>
+        </PointsContainer>
+        <TriangleDangle
+          triangleWidth={30}
+          dangleWidth={6}
+          height={100}
+          dangleGradient={{
+            start: boardColors.nameTop,
+            stop: boardColors.nameBottom,
+          }}
+          triangleGradient={{
+            start: boardColors.pointsTop,
+            stop: boardColors.pointsBottom,
+          }}
+        />
+      </Container>
+    </OpacityContainer>
   );
 }
 
@@ -170,19 +174,25 @@ Scoreboard.defaultProps = {
   },
 };
 
-export default inject(stores => ({
-  homeTeam: {
-    name: stores.homeTeamStore.shortName,
-    logo: stores.homeTeamStore.logo,
-    color: stores.homeTeamStore.color,
-    points: stores.scoreStore.currentPoints.homeTeam,
-    sets: stores.scoreStore.currentSets.homeTeam,
-  },
-  awayTeam: {
-    name: stores.awayTeamStore.shortName,
-    logo: stores.awayTeamStore.logo,
-    color: stores.awayTeamStore.color,
-    points: stores.scoreStore.currentPoints.awayTeam,
-    sets: stores.scoreStore.currentSets.awayTeam,
-  },
-}))(Scoreboard);
+export default inject((stores, props) => {
+  const uiStore = stores.uiStore[props.position];
+  return {
+    isShowing: uiStore.isShowing,
+    showLogos: uiStore.showLogos,
+    showColors: uiStore.showColors,
+    homeTeam: {
+      name: stores.homeTeamStore.shortName,
+      logo: stores.homeTeamStore.logo,
+      color: stores.homeTeamStore.color,
+      points: stores.scoreStore.currentPoints.homeTeam,
+      sets: stores.scoreStore.currentSets.homeTeam,
+    },
+    awayTeam: {
+      name: stores.awayTeamStore.shortName,
+      logo: stores.awayTeamStore.logo,
+      color: stores.awayTeamStore.color,
+      points: stores.scoreStore.currentPoints.awayTeam,
+      sets: stores.scoreStore.currentSets.awayTeam,
+    },
+  };
+})(observer(Scoreboard));
