@@ -10,7 +10,7 @@ export default class UiStore {
   };
   @observable topMiddle = { isShowing: false };
   @observable topRight = { isShowing: false };
-  @observable main = { isShowing: false, position: 'main', id: 'PlayerList' };
+  @observable main = { isShowing: true, position: 'main', id: 'PlayerList' };
 
   @action hideTopLeft() {
     this.topLeft.isShowing = false;

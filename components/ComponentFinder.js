@@ -7,7 +7,7 @@ function ComponentFinder(props: { component: any }) {
     case 'Scoreboard':
       return <Scoreboard position={props.component.position} />;
     case 'PlayerList':
-      return <PlayerList />;
+      return <PlayerList position={props.component.position} />;
   }
   return null;
 }

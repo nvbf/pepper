@@ -2,9 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { inject } from 'mobx-react';
 import styled from 'styled-components';
+import OpacityContainer from '../OpacityContainer';
 import BarList from './BarList';
 import BigHeader from './BigHeader';
 import PlayerImage from './PlayerImage';
+
+const OuterContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const Container = styled.div`
   width: 908px;
@@ -70,31 +79,37 @@ export class PlayerList extends React.Component {
 
     const { team } = this.props;
     return (
-      <Container>
-        <BigHeader logo={team.logo} text={team.name} isShowing={this.state.showHeader} />
-        <RowContainer>
-          <BarList
-            team={team}
-            selectedIndex={this.state.selectedIndex}
-            isShowing={this.state.showList}
-          />
-          <PlayerImage
-            player={selectedPlayer}
-            prevPlayer={prevPlayer}
-            isShowing={this.state.showImage}
-          />
-        </RowContainer>
-      </Container>
+      <OpacityContainer isShowing={this.props.isShowing}>
+        <OuterContainer>
+          <Container>
+            <BigHeader logo={team.logo} text={team.name} isShowing={this.state.showHeader} />
+            <RowContainer>
+              <BarList
+                team={team}
+                selectedIndex={this.state.selectedIndex}
+                isShowing={this.state.showList}
+              />
+              <PlayerImage
+                player={selectedPlayer}
+                prevPlayer={prevPlayer}
+                isShowing={this.state.showImage}
+              />
+            </RowContainer>
+          </Container>
+        </OuterContainer>
+      </OpacityContainer>
     );
   }
 }
 
 PlayerList.propTypes = {
+  isShowing: PropTypes.bool,
   team: PropTypes.shape({
     players: PropTypes.array,
   }).isRequired,
 };
 
-export default inject(allStores => ({
+export default inject((allStores, props) => ({
   team: allStores.awayTeamStore,
+  isShowing: allStores.uiStore[props.position].isShowing,
 }))(PlayerList);
