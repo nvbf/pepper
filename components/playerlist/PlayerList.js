@@ -47,11 +47,25 @@ export class PlayerList extends React.Component {
     this.startUpdate = this.startUpdate.bind(this);
   }
 
-  componentDidMount() {
-    setTimeout(this.startUpdate, 600);
+  componentWillUpdate(nextProps) {
+    if (!this.props.isShowing && nextProps.isShowing) {
+      this.stopUpdate();
+      setTimeout(this.startUpdate, 600);
+    } else if (this.props.isShowing && !nextProps.isShowing) {
+      this.stopUpdate();
+    }
+  }
+
+  stopUpdate() {
+    clearInterval(this.state.intervalId);
+    this.setState({
+      showImage: false,
+      selectedIndex: -1,
+    });
   }
 
   startUpdate() {
+    clearInterval(this.state.intervalId);
     const intervalId = setInterval(this.updateSelected, 2000);
     this.setState({ intervalId, showList: true });
   }
@@ -59,12 +73,7 @@ export class PlayerList extends React.Component {
   updateSelected() {
     const newIndex = this.state.selectedIndex + 1;
     if (newIndex === this.props.team.players.length) {
-      clearInterval(this.state.intervalId);
-      this.setState({
-        showImage: false,
-        showList: false,
-        showHeader: false,
-      });
+      this.stopUpdate();
     } else {
       this.setState({
         selectedIndex: newIndex,
@@ -79,31 +88,29 @@ export class PlayerList extends React.Component {
 
     const { team } = this.props;
     return (
-      <OpacityContainer isShowing={this.props.isShowing}>
-        <OuterContainer>
-          <Container>
-            <BigHeader logo={team.logo} text={team.name} isShowing={this.state.showHeader} />
-            <RowContainer>
-              <BarList
-                team={team}
-                selectedIndex={this.state.selectedIndex}
-                isShowing={this.state.showList}
-              />
-              <PlayerImage
-                player={selectedPlayer}
-                prevPlayer={prevPlayer}
-                isShowing={this.state.showImage}
-              />
-            </RowContainer>
-          </Container>
-        </OuterContainer>
-      </OpacityContainer>
+      <OuterContainer>
+        <Container>
+          <BigHeader logo={team.logo} text={team.name} isShowing={this.props.isShowing} />
+          <RowContainer>
+            <BarList
+              team={team}
+              selectedIndex={this.state.selectedIndex}
+              isShowing={this.props.isShowing}
+            />
+            <PlayerImage
+              player={selectedPlayer}
+              prevPlayer={prevPlayer}
+              isShowing={this.props.isShowing && this.state.showImage}
+            />
+          </RowContainer>
+        </Container>
+      </OuterContainer>
     );
   }
 }
 
 PlayerList.propTypes = {
-  isShowing: PropTypes.bool,
+  isShowing: PropTypes.bool.isRequired,
   team: PropTypes.shape({
     players: PropTypes.array,
   }).isRequired,
