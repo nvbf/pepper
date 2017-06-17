@@ -1,3 +1,6 @@
+// flow-typed signature: 4d3fb8f2ed0c9a8ce4bc20ddec1dd85a
+// flow-typed version: d80d7aa0bf/next_v2.x.x/flow_>=v0.37.x
+
 declare module "next" {
   declare type RequestHandler = (req: http$IncomingMessage, res: http$ServerResponse, parsedUrl: any) => Promise<void>;
   declare type NextApp = {

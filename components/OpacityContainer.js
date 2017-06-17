@@ -4,6 +4,7 @@ import Animated from 'animated/lib/targets/react-dom';
 
 export type OpacityProps = {
   isShowing: boolean,
+  children: any,
 };
 
 class OpacityContainer extends React.PureComponent {
@@ -28,7 +29,7 @@ class OpacityContainer extends React.PureComponent {
     }
   }
 
-  props: { children: any };
+  props: OpacityProps;
 
   render() {
     return (

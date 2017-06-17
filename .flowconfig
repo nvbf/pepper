@@ -9,6 +9,7 @@ types/
 .*/test/unit/.*
 
 [options]
+esproposal.decorators=ignore
 
 [libs]
 flow-typed

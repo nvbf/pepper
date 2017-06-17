@@ -1,7 +1,8 @@
 import { action, observable } from 'mobx';
 
 export default class UiStore {
-  @observable topLeft = {
+  @observable
+  topLeft = {
     position: 'topLeft',
     isShowing: true,
     id: 'Scoreboard',
@@ -12,11 +13,20 @@ export default class UiStore {
   @observable topRight = { isShowing: false };
   @observable main = { isShowing: true, position: 'main', id: 'PlayerList' };
 
-  @action hideTopLeft() {
+  @action
+  hideTopLeft() {
     this.topLeft.isShowing = false;
   }
 
-  @action showTopLeft() {
+  @action
+  showTopLeft() {
     this.topLeft.isShowing = true;
+  }
+
+  @action
+  toggle(position, attribute) {
+    return () => {
+      this[position][attribute] = !this[position][attribute];
+    };
   }
 }

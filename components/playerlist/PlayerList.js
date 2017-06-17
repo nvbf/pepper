@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { inject } from 'mobx-react';
 import styled from 'styled-components';
-import OpacityContainer from '../OpacityContainer';
 import BarList from './BarList';
 import BigHeader from './BigHeader';
 import PlayerImage from './PlayerImage';

@@ -1,15 +1,16 @@
 import React from 'react';
-import Scoreboard from './scoreboard/Scoreboard';
-import PlayerList from './playerlist/PlayerList';
+import MobxScoreboard from './scoreboard/Scoreboard';
+import MobxPlayerList from './playerlist/PlayerList';
 
 function ComponentFinder(props: { component: any }) {
   switch (props.component.id) {
     case 'Scoreboard':
-      return <Scoreboard position={props.component.position} />;
+      return <MobxScoreboard position={props.component.position} />;
     case 'PlayerList':
-      return <PlayerList position={props.component.position} />;
+      return <MobxPlayerList position={props.component.position} />;
+    default:
+      return null;
   }
-  return null;
 }
 
 export default ComponentFinder;
