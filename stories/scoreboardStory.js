@@ -1,7 +1,7 @@
 import React from 'react';
-import { storiesOf } from '@kadira/storybook';
-import { withKnobs, number, text } from '@kadira/storybook-addon-knobs';
-import Scoreboard from '../components/scoreboard/Scoreboard';
+import { storiesOf } from '@storybook/react';
+import { withKnobs, number, text } from '@storybook/addon-knobs';
+import { Scoreboard } from '../components/scoreboard/Scoreboard';
 import { Bayern, ManUnited } from '../mocks/teams';
 
 const scoreboardStory = storiesOf('Scoreboard', module);
@@ -36,5 +36,7 @@ scoreboardStory.add('with two teams', () => {
     points: 19,
     color: '#ee0000',
   };
-  return <Scoreboard homeTeam={bayernScore} awayTeam={manUnitedScore} showColors showLogos />;
+  return (
+    <Scoreboard homeTeam={bayernScore} awayTeam={manUnitedScore} showColors showLogos isShowing />
+  );
 });

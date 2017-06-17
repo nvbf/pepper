@@ -1,6 +1,6 @@
 import React from 'react';
-import { storiesOf } from '@kadira/storybook';
-import { withKnobs, number } from '@kadira/storybook-addon-knobs';
+import { storiesOf } from '@storybook/react';
+import { withKnobs, number } from '@storybook/addon-knobs';
 import { host } from 'storybook-host';
 import VolleyNet from '../components/lineup/VolleyNet';
 import VolleyCourt from '../components/lineup/VolleyCourt';
@@ -18,10 +18,10 @@ lineupStory.addDecorator(
 );
 lineupStory.addDecorator(withKnobs);
 
-const numberRange = (label, min, max) =>
+const numberRange = (label, min, max, def = 0) =>
   number(
     label,
-    0,
+    def,
     {
       range: true,
       min,
@@ -32,15 +32,18 @@ const numberRange = (label, min, max) =>
     1,
   );
 
-lineupStory.add('net only', () => (
-  <VolleyNet
-    width={numberRange('court width', 500, 900)}
-    netHeight={numberRange('net height', 224, 243)}
-  />
-));
+lineupStory.add('net only', () =>
+  (<VolleyNet
+    width={numberRange('court width', 500, 900, 600)}
+    netHeight={numberRange('net height', 224, 243, 243)}
+  />),
+);
 
-lineupStory.add('court with net', () => (
-  <VolleyCourt height={numberRange('height', 200, 800)} width={numberRange('width', 300, 1000)} />
-));
+lineupStory.add('court with net', () =>
+  (<VolleyCourt
+    height={numberRange('height', 200, 800, 300)}
+    width={numberRange('width', 300, 1000, 400)}
+  />),
+);
 
 lineupStory.add('full lineup', () => <Lineup />);

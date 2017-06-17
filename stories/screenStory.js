@@ -1,9 +1,9 @@
 import React from 'react';
-import { storiesOf } from '@kadira/storybook';
+import { storiesOf } from '@storybook/react';
 import styled from 'styled-components';
 import Screen from '../components/Screen';
-import PlayerList from '../components/playerlist/PlayerList';
-import Scoreboard from '../components/scoreboard/Scoreboard';
+import { PlayerList } from '../components/playerlist/PlayerList';
+import { Scoreboard } from '../components/scoreboard/Scoreboard';
 import Lineup from '../components/lineup/Lineup';
 import { Bayern, ManUnited } from '../mocks/teams';
 import mockState from '../mocks/state';
@@ -26,13 +26,13 @@ const TopMiddle = <TestComponent background="transparent">TopMiddle</TestCompone
 const TopRight = <TestComponent background="transparent">Blue</TestComponent>;
 const Main = <TestComponent background="lightgray" height={900} width={1920}>Main</TestComponent>;
 
-screenStory.add('normal', () => (
-  <Screen topLeft={TopLeft} topMiddle={TopMiddle} topRight={TopRight} main={Main} />
-));
+screenStory.add('normal', () =>
+  <Screen topLeft={TopLeft} topMiddle={TopMiddle} topRight={TopRight} main={Main} />,
+);
 
 const PlayerListMain = (
   <TestComponent background="transparent" height={900} width={1920}>
-    <PlayerList team={Bayern} />
+    <PlayerList team={Bayern} isShowing />
   </TestComponent>
 );
 
@@ -56,25 +56,27 @@ const manUnitedScore = {
   points: 19,
   color: '#ee0000',
 };
-const Score = <Scoreboard homeTeam={bayernScore} awayTeam={manUnitedScore} showColors showLogos />;
+const Score = (
+  <Scoreboard homeTeam={bayernScore} awayTeam={manUnitedScore} showColors showLogos isShowing />
+);
 
-screenStory.add('playerList 1080p with scoreboard', () => (
-  <Screen
+screenStory.add('playerList 1080p with scoreboard', () =>
+  (<Screen
     state={mockState}
     size="1080p"
     topLeft={{ id: 'Scoreboard', showLogos: true, showColors: true }}
     topMiddle={TopMiddle}
     topRight={TopRight}
     main={PlayerListMain}
-  />
-));
+  />),
+);
 
-screenStory.add('lineup and scoreboard', () => (
-  <Screen
+screenStory.add('lineup and scoreboard', () =>
+  (<Screen
     size="1080p"
     topLeft={Score}
     topMiddle={TopMiddle}
     topRight={TopRight}
     main={LineupMain}
-  />
-));
+  />),
+);

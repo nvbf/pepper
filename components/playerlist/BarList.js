@@ -12,16 +12,16 @@ function BarList(props) {
   return (
     <Container>
       {props.isShowing &&
-        props.team.players.map((player, index) => (
-          <Bar
+        props.team.players.map((player, index) =>
+          (<Bar
             key={player.number}
             animDelay={index * 100}
             number={player.number}
             name={player.name}
             position={player.position}
             active={index === props.selectedIndex}
-          />
-        ))}
+          />),
+        )}
     </Container>
   );
 }

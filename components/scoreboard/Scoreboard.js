@@ -97,7 +97,7 @@ export type ScoreboardProps = {
   isShowing: boolean,
 };
 
-function Scoreboard(props: ScoreboardProps) {
+export function Scoreboard(props: ScoreboardProps) {
   return (
     <OpacityContainer isShowing={props.isShowing}>
       <Container>

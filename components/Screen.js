@@ -46,15 +46,13 @@ const MainContainer = styled.div`
   overflow: hidden;
 `;
 
-export default function Screen(
-  props: {
-    size: '1080p' | '720p',
-    topLeft: Function,
-    topMiddle: Function,
-    topRight: Function,
-    main: Function,
-  },
-) {
+export default function Screen(props: {
+  size: '1080p' | '720p',
+  topLeft: Function,
+  topMiddle: Function,
+  topRight: Function,
+  main: Function,
+}) {
   return (
     <ThemeProvider theme={theme(props.size)}>
       <Container>

@@ -16,7 +16,10 @@ const Container = styled.div`
 
 const BackgroundContainer = styled.div`
   background-color: ${darken(0.6, color.white)};
-  background: linear-gradient(${darken(0.8, 'rgba(255, 255, 255, 0.7)')}, ${darken(0.6, 'rgba(255, 255, 255, 0.7)')});
+  background: linear-gradient(${darken(0.8, 'rgba(255, 255, 255, 0.7)')}, ${darken(
+  0.6,
+  'rgba(255, 255, 255, 0.7)',
+)});
   height: 700px;
   width: 908px;
   display: flex;
@@ -94,17 +97,15 @@ PlayerThing.defaultProps = {
   libero: false,
 };
 
-function Players(
-  props: {
-    one: Player,
-    two: Player,
-    three: Player,
-    four: Player,
-    five: Player,
-    six: Player,
-    libero: Player,
-  },
-) {
+function Players(props: {
+  one: Player,
+  two: Player,
+  three: Player,
+  four: Player,
+  five: Player,
+  six: Player,
+  libero: Player,
+}) {
   return (
     <PlayerBox>
       <PlayerThing player={props.one} x={480} y={170} />
