@@ -18,7 +18,8 @@ const NumContainer = styled.div`
   height: 100%;
   width: 72px;
   background: ${props => (props.active ? '#FFDC00' : 'white')};
-  background: ${props => (props.active ? 'linear-gradient(#FFDC00, #FFB54B)' : 'linear-gradient(#fff, #aaa)')};
+  background: ${props =>
+    props.active ? 'linear-gradient(#FFDC00, #FFB54B)' : 'linear-gradient(#fff, #aaa)'};
   display: flex;
   align-items: center;
   justify-content: center;

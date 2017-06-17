@@ -2,9 +2,12 @@ import React from 'react';
 import GradientFill from './GradientFill';
 import type { Gradient } from '../../types/types';
 
-function DoubleTriangle(
-  props: { leftGradient: Gradient, rightGradient: Gradient, width: number, height: number },
-) {
+function DoubleTriangle(props: {
+  leftGradient: Gradient,
+  rightGradient: Gradient,
+  width: number,
+  height: number,
+}) {
   return (
     <svg
       shapeRendering="optimizeQuality"

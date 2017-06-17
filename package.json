@@ -11,7 +11,7 @@
     "build": "next build",
     "start": "next start",
     "eslint": "node ./node_modules/eslint/bin/eslint.js '{components,pages}/**/*.js' -c ./.eslintrc.json",
-    "prettier": "node ./node_modules/prettier/bin/prettier.js --single-quote --trailing-comma all '{components,pages}/**/*.js' --write",
+    "prettier": "prettier-eslint --single-quote --trailing-comma all '{components,pages}/**/*.js' --write",
     "flow": "./node_modules/flow-bin/cli.js",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
@@ -43,6 +43,7 @@
     "flow-typed": "^2.1.2",
     "prettier": "^1.4.4",
     "prettier-eslint": "^6.3.0",
+    "prettier-eslint-cli": "^4.1.1",
     "storybook-host": "3.0.0"
   }
 }

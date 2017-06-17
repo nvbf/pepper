@@ -2,15 +2,13 @@ import React from 'react';
 import GradientFill from './GradientFill';
 import type { Gradient } from '../../types/types';
 
-function TriangleDangle(
-  props: {
-    triangleGradient: Gradient,
-    dangleGradient: Gradient,
-    triangleWidth: number,
-    dangleWidth: number,
-    height: number,
-  },
-) {
+function TriangleDangle(props: {
+  triangleGradient: Gradient,
+  dangleGradient: Gradient,
+  triangleWidth: number,
+  dangleWidth: number,
+  height: number,
+}) {
   return (
     <svg
       shapeRendering="optimizeQuality"

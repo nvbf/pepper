@@ -3,9 +3,12 @@ import BaseSvg from './BaseSvg';
 import GradientFill from './GradientFill';
 import type { Gradient } from '../../types/types';
 
-function DoubleShadowTriangle(
-  props: { leftGradient: Gradient, rightGradient: Gradient, width: number, height: number },
-) {
+function DoubleShadowTriangle(props: {
+  leftGradient: Gradient,
+  rightGradient: Gradient,
+  width: number,
+  height: number,
+}) {
   const offset = 12;
   const doubleOffset = offset * 2;
   return (

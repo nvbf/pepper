@@ -67,7 +67,8 @@ export type TeamRowState = {
   colorAnim: any,
 };
 
-@observer class TeamRow extends React.Component {
+@observer
+class TeamRow extends React.Component {
   static defaultProps = {
     logo: '',
     name: '',
