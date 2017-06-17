@@ -6,6 +6,8 @@ function loadStories() {
   require('../stories/screenStory');
   require('../stories/scoreboardStory');
   require('../stories/lineupStory');
+  require('../stories/admin/navBarStory');
+  require('../stories/admin/playerDataStory');
 }
 
 configure(loadStories, module);
