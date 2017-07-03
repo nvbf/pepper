@@ -11,7 +11,7 @@ const Container = styled.div`
 `;
 
 const ImageContainer = styled.div`
-  width:  300px;
+  width: 300px;
   height: 0px;
   margin-bottom: 8px;
   position: relative;

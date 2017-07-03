@@ -29,7 +29,7 @@ const NameContainer = styled.div`
   height: 100%;
   width: 346px;
   background: blue;
-  background: linear-gradient(#0074D9, #001f3f);
+  background: linear-gradient(#0074d9, #001f3f);
   font-weight: 600;
   font-size: 28px;
   padding-left: 16px;
@@ -44,7 +44,7 @@ const PositionContainer = styled.div`
   height: 100%;
   width: 160px;
   background: blue;
-  background: linear-gradient(#0074D9, #001f3f, #001f3f);
+  background: linear-gradient(#0074d9, #001f3f, #001f3f);
   font-weight: 600;
   font-size: 20px;
   line-height: 48px;

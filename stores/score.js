@@ -1,7 +1,8 @@
 import { observable, computed } from 'mobx';
 
 export default class ScoreStore {
-  @observable homeTeam = {
+  @observable
+  homeTeam = {
     setOne: 25,
     setTwo: 25,
     setThree: 5,
@@ -9,7 +10,8 @@ export default class ScoreStore {
     setFive: 0,
   };
 
-  @observable awayTeam = {
+  @observable
+  awayTeam = {
     setOne: 21,
     setTwo: 27,
     setThree: 3,
@@ -33,27 +35,33 @@ export default class ScoreStore {
     return ScoreStore.setResult(homeSet, awaySet) !== 0;
   }
 
-  @computed get setOneFinished() {
+  @computed
+  get setOneFinished() {
     return ScoreStore.setFinished(this.homeTeam.setOne, this.awayTeam.setOne);
   }
 
-  @computed get setTwoFinished() {
+  @computed
+  get setTwoFinished() {
     return ScoreStore.setFinished(this.homeTeam.setTwo, this.awayTeam.setTwo);
   }
 
-  @computed get setThreeFinished() {
+  @computed
+  get setThreeFinished() {
     return ScoreStore.setFinished(this.homeTeam.setThree, this.awayTeam.setThree);
   }
 
-  @computed get setFourFinished() {
+  @computed
+  get setFourFinished() {
     return ScoreStore.setFinished(this.homeTeam.setFour, this.awayTeam.setFour);
   }
 
-  @computed get setFiveFinished() {
+  @computed
+  get setFiveFinished() {
     return ScoreStore.setFinished(this.homeTeam.setFive, this.awayTeam.setFive);
   }
 
-  @computed get currentPoints() {
+  @computed
+  get currentPoints() {
     if (!this.setOneFinished) {
       return { homeTeam: this.homeTeam.setOne, awayTeam: this.awayTeam.setOne };
     }
@@ -69,7 +77,8 @@ export default class ScoreStore {
     return { homeTeam: this.homeTeam.setFive, awayTeam: this.awayTeam.setFive };
   }
 
-  @computed get currentSets() {
+  @computed
+  get currentSets() {
     const setResults = [
       ScoreStore.setResult(this.homeTeam.setOne, this.awayTeam.setOne),
       ScoreStore.setResult(this.homeTeam.setTwo, this.awayTeam.setTwo),

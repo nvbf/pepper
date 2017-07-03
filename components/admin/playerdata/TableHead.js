@@ -28,7 +28,9 @@ function TableHead(props: { logo: string, name: string }) {
   return (
     <Container>
       <Logo src={props.logo} />
-      <Name>{props.name}</Name>
+      <Name>
+        {props.name}
+      </Name>
     </Container>
   );
 }

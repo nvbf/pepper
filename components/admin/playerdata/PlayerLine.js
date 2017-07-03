@@ -41,9 +41,15 @@ const Position = styled.div`
 function PlayerLine(props: { player: any, active: boolean }) {
   return (
     <Container active={props.active}>
-      <Number active={props.active}>{props.player.number}</Number>
-      <Name active={props.active}>{props.player.name}</Name>
-      <Position active={props.active}>{props.player.position}</Position>
+      <Number active={props.active}>
+        {props.player.number}
+      </Number>
+      <Name active={props.active}>
+        {props.player.name}
+      </Name>
+      <Position active={props.active}>
+        {props.player.position}
+      </Position>
     </Container>
   );
 }
