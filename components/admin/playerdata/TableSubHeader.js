@@ -6,7 +6,9 @@ import color from '../../../libs/color';
 const Container = styled.div`
   width: 100%;
   height: 24px;
-  background-color: ${color.seaBlue};
+  background-color:
+
+   ${color.seaBlue};
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -28,7 +30,7 @@ const ColumnHead = styled.span`
   width: ${props => props.colWidth || 24}px;
 `;
 
-export default function TableSubHeader(props) {
+export default function TableSubHeader() {
   return (
     <Container>
       <InnerContainer>
