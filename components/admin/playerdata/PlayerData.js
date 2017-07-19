@@ -34,7 +34,7 @@ function PlayerData(props: {
     <Container>
       <TableHead logo={props.team.logo} name={props.data.allTeams[0].shortName} />
       {props.data.allTeams[0].players.map(player =>
-        <PlayerLine player={player} active={props.activePlayers.includes(player.number)} />,
+        <PlayerLine player={player} active={player.active} />,
       )}
     </Container>
   );
@@ -46,8 +46,11 @@ const allTeams = gql`
       id
       name
       shortName
-      players {
+      players(orderBy: position_ASC) {
         name
+        number
+        position
+        active
       }
     }
   }
