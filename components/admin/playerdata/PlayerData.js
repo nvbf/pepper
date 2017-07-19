@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { transparentize } from 'polished';
+import { gql, graphql } from 'react-apollo';
 import TableHead from './TableHead';
 import PlayerLine from './PlayerLine';
 import color from '../../../libs/color';
@@ -16,15 +17,46 @@ const Container = styled.div`
   box-shadow: 0px 2px 6px ${transparentize(0.8, color.seaBlue)};
 `;
 
-function PlayerData(props: { team: Team, activePlayers: Array<number> }) {
+function PlayerData(props: {
+  data: { loading: boolean, error: boolean, allTeams: Array<any> },
+  team: Team,
+  activePlayers: Array<number>,
+}) {
+  console.log(props);
+  if (props.data.error) {
+    console.log(props.data.error);
+    return <div>Error</div>;
+  }
+  if (props.data.loading) {
+    return <div>Loading</div>;
+  }
   return (
     <Container>
-      <TableHead logo={props.team.logo} name={props.team.shortName} />
-      {props.team.players.map(player =>
+      <TableHead logo={props.team.logo} name={props.data.allTeams[0].shortName} />
+      {props.data.allTeams[0].players.map(player =>
         <PlayerLine player={player} active={props.activePlayers.includes(player.number)} />,
       )}
     </Container>
   );
 }
 
-export default PlayerData;
+const allTeams = gql`
+  query Team {
+    allTeams {
+      id
+      name
+      shortName
+      players {
+        name
+      }
+    }
+  }
+`;
+
+PlayerData.defaultProps = {
+  activePlayers: [],
+};
+
+export default graphql(allTeams, {
+  options: { variables: { shortName: 'BAYERN' } },
+})(PlayerData);
