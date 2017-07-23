@@ -1,5 +1,5 @@
-# project: cj58jidn2nv6d01054i6bqzb7
-# version: 8
+# project: pepper
+# version: 30
 
 type File implements Node {
   contentType: String!
@@ -16,6 +16,8 @@ type User implements Node {
   createdAt: DateTime!
   id: ID! @isUnique
   updatedAt: DateTime!
+  email: String @isUnique
+  password: String
 }
 
 type Player implements Node {
@@ -26,6 +28,11 @@ type Player implements Node {
   id: ID! @isUnique
   updatedAt: DateTime!
   team: Team @relation(name: "TeamPlayer")
+  height: Int!
+  reach: Int!
+  blockReach: Int!
+  birthYear: Int!
+  active: Boolean!
 }
 
 type Team implements Node {
