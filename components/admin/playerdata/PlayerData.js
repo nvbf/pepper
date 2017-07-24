@@ -17,36 +17,46 @@ const Container = styled.div`
   box-shadow: 0px 2px 6px ${transparentize(0.8, color.seaBlue)};
 `;
 
-function PlayerData(props: {
-  data: { loading: boolean, error: boolean, allTeams: Array<any> },
-  team: Team,
-  activePlayers: Array<number>,
-}) {
-  console.log(props);
-  if (props.data.error) {
-    console.log(props.data.error);
-    return <div>Error</div>;
+class PlayerData extends React.Component {
+  props: {
+    data: { loading: boolean, error: boolean, Team: Array<any> },
+    team: Team,
+  };
+
+  handlePlayerClick(id) {
+    console.log(id);
   }
-  if (props.data.loading) {
-    return <div>Loading</div>;
+
+  render() {
+    if (this.props.data.error) {
+      return <div>Error</div>;
+    }
+    if (this.props.data.loading) {
+      return <div>Loading</div>;
+    }
+    return (
+      <Container>
+        <TableHead logo={this.props.team.logo} name={this.props.data.Team.shortName} />
+        {this.props.data.Team.players.map(player =>
+          (<PlayerLine
+            key={player.id}
+            player={player}
+            onClick={() => this.handlePlayerClick(player.id)}
+          />),
+        )}
+      </Container>
+    );
   }
-  return (
-    <Container>
-      <TableHead logo={props.team.logo} name={props.data.allTeams[0].shortName} />
-      {props.data.allTeams[0].players.map(player =>
-        <PlayerLine player={player} active={player.active} />,
-      )}
-    </Container>
-  );
 }
 
-const allTeams = gql`
-  query Team {
-    allTeams {
+const PLAYERS_FROM_TEAM_QUERY = gql`
+  query TeamWithPlayers($slug: String!) {
+    Team(slug: $slug) {
       id
       name
       shortName
       players(orderBy: position_ASC) {
+        id
         name
         number
         position
@@ -60,6 +70,6 @@ PlayerData.defaultProps = {
   activePlayers: [],
 };
 
-export default graphql(allTeams, {
-  options: { variables: { shortName: 'BAYERN' } },
+export default graphql(PLAYERS_FROM_TEAM_QUERY, {
+  options: { variables: { slug: 'ntnui' } },
 })(PlayerData);

@@ -14,7 +14,7 @@ injectGlobal`
 function AdminPage() {
   return (
     <div>
-      Admin page!<PlayerData team={ManUnited} />
+      <PlayerData team={ManUnited} />
     </div>
   );
 }

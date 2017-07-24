@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import styled from 'styled-components';
+import { gql, graphql } from 'react-apollo';
 import color from '../../../libs/color';
 
 const Container = styled.div`
@@ -10,9 +11,15 @@ const Container = styled.div`
   flex-direction: row;
   align-items: center;
   background-color: ${props => (props.active ? color.white : color.extraLightGrey)};
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.6;
+    background-color: ${color.extraLightGrey};
+  }
 `;
 
-const Number = styled.div`
+const PlayerNumber = styled.div`
   height: 48px;
   width: 48px;
   border-radius: 50%;
@@ -38,20 +45,39 @@ const Position = styled.div`
   margin-right: 16px;
 `;
 
-function PlayerLine(props: { player: any, active: boolean }) {
+function PlayerLine(props: { player: any, active: boolean, toggleActive: Function }) {
   return (
-    <Container active={props.active}>
-      <Number active={props.active}>
+    <Container
+      active={props.player.active}
+      onClick={() =>
+        props.toggleActive({
+          variables: {
+            id: props.player.id,
+            active: !props.player.active,
+          },
+        })}
+    >
+      <PlayerNumber active={props.player.active}>
         {props.player.number}
-      </Number>
-      <Name active={props.active}>
+      </PlayerNumber>
+      <Name active={props.player.active}>
         {props.player.name}
       </Name>
-      <Position active={props.active}>
+      <Position active={props.player.active}>
         {props.player.position}
       </Position>
     </Container>
   );
 }
 
-export default PlayerLine;
+const TOGGLE_ACTIVE_MUTATION = gql`
+  mutation UpdatePlayerActive($id: ID!, $active: Boolean) {
+    updatePlayer(id: $id, active: $active) {
+      id
+      name
+      active
+    }
+  }
+`;
+
+export default graphql(TOGGLE_ACTIVE_MUTATION, { name: 'toggleActive' })(PlayerLine);
