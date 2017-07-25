@@ -28,7 +28,8 @@
     "react": "^15.6.1",
     "react-apollo": "^1.4.4",
     "react-dom": "^15.6.1",
-    "styled-components": "^2.1.0"
+    "styled-components": "^2.1.0",
+    "subscriptions-transport-ws": "^0.8.1"
   },
   "devDependencies": {
     "@storybook/addon-knobs": "3.1.2",

@@ -31,9 +31,50 @@ const FETCH_SCORE_QUERY = gql`
   }
 `;
 
+const SETS_SUBSCRIPTION = gql`
+  subscription SubscribeOnSets {
+    Set(
+      filter: {
+        mutation_in: [CREATED, UPDATED, DELETED]
+        node: { match: { id: "cj5jb3dhib2o101599yo4827f" } }
+      }
+    ) {
+      node {
+        id
+        startTime
+        homeScore
+        awayScore
+        number
+      }
+    }
+  }
+`;
+
 const config = {
   options: { variables: { matchId: 'cj5jb3dhib2o101599yo4827f' } },
-  props: ({ ownProps, data: { Match } }) => ({
+  props: ({ ownProps, data: { Match, subscribeToMore } }) => ({
+    subscribeToSetData: () =>
+      subscribeToMore({
+        document: SETS_SUBSCRIPTION,
+        variables: {
+          matchId: 'FILL-IN',
+        },
+        updateQuery: (prev, { subscriptionData }) => {
+          if (!subscriptionData.data) {
+            return prev;
+          }
+          const newSet = subscriptionData.data.Set.node;
+          const allSetsButNew = prev.Match.sets.filter(set => set.number !== newSet.number);
+
+          return {
+            ...prev,
+            Match: {
+              ...prev.Match,
+              sets: allSetsButNew.concat(newSet),
+            },
+          };
+        },
+      }),
     isShowing: true,
     showLogos: false,
     showColors: true,
