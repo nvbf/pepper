@@ -32,13 +32,8 @@ const FETCH_SCORE_QUERY = gql`
 `;
 
 const SETS_SUBSCRIPTION = gql`
-  subscription SubscribeOnSets {
-    Set(
-      filter: {
-        mutation_in: [CREATED, UPDATED, DELETED]
-        node: { match: { id: "cj5jb3dhib2o101599yo4827f" } }
-      }
-    ) {
+  subscription SubscribeOnSets($matchId: ID!) {
+    Set(filter: { mutation_in: [CREATED, UPDATED, DELETED], node: { match: { id: $matchId } } }) {
       node {
         id
         startTime
@@ -50,14 +45,16 @@ const SETS_SUBSCRIPTION = gql`
   }
 `;
 
+const matchId = 'cj5jb3dhib2o101599yo4827f';
+
 const config = {
-  options: { variables: { matchId: 'cj5jb3dhib2o101599yo4827f' } },
+  options: { variables: { matchId } },
   props: ({ ownProps, data: { Match, subscribeToMore } }) => ({
     subscribeToSetData: () =>
       subscribeToMore({
         document: SETS_SUBSCRIPTION,
         variables: {
-          matchId: 'FILL-IN',
+          matchId,
         },
         updateQuery: (prev, { subscriptionData }) => {
           if (!subscriptionData.data) {
