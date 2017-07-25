@@ -30,7 +30,7 @@ function PlayerData(props: {
   return (
     <Container>
       <TableHead logo={props.team.logo} name={props.data.Team.shortName} />
-      {this.props.data.Team.players.map(player => <PlayerLine key={player.id} player={player} />)}
+      {props.data.Team.players.map(player => <PlayerLine key={player.id} player={player} />)}
     </Container>
   );
 }
@@ -51,10 +51,6 @@ const PLAYERS_FROM_TEAM_QUERY = gql`
     }
   }
 `;
-
-PlayerData.defaultProps = {
-  activePlayers: [],
-};
 
 export default graphql(PLAYERS_FROM_TEAM_QUERY, {
   options: { variables: { slug: 'ntnui' } },

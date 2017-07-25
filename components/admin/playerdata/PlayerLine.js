@@ -6,7 +6,7 @@ import color from '../../../libs/color';
 
 const Container = styled.div`
   width: 100%;
-  height: 72px;
+  height: 48px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -20,15 +20,15 @@ const Container = styled.div`
 `;
 
 const PlayerNumber = styled.div`
-  height: 48px;
-  width: 48px;
+  height: 32px;
+  width: 32px;
   border-radius: 50%;
   margin-left: 16px;
   background-color: ${props => (props.active ? color.yellow : color.lightGray)};
-  color: ${color.white};
-  line-height: 48px;
+  color: ${color.black};
+  line-height: 32px;
   text-align: center;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 200;
 `;
 
