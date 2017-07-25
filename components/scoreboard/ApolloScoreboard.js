@@ -45,16 +45,18 @@ const SETS_SUBSCRIPTION = gql`
   }
 `;
 
-const matchId = 'cj5jb3dhib2o101599yo4827f';
-
 const config = {
-  options: { variables: { matchId } },
+  options: props => ({
+    variables: {
+      matchId: props.matchId,
+    },
+  }),
   props: ({ ownProps, data: { Match, subscribeToMore } }) => ({
     subscribeToSetData: () =>
       subscribeToMore({
         document: SETS_SUBSCRIPTION,
         variables: {
-          matchId,
+          matchId: ownProps.matchId,
         },
         updateQuery: (prev, { subscriptionData }) => {
           if (!subscriptionData.data) {

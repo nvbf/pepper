@@ -51,23 +51,24 @@ export default function Screen(props: {
   topMiddle: Function,
   topRight: Function,
   main: Function,
+  matchId: String,
 }) {
   return (
     <ThemeProvider theme={theme(props.size)}>
       <Container>
         <TopRow>
           <TopLeftContainer>
-            <ComponentFinder component={props.topLeft} />
+            <ComponentFinder component={props.topLeft} matchId={props.matchId} />
           </TopLeftContainer>
           <TopMiddleContainer>
-            <ComponentFinder component={props.topMiddle} />
+            <ComponentFinder component={props.topMiddle} matchId={props.matchId} />
           </TopMiddleContainer>
           <TopRightContainer>
-            <ComponentFinder component={props.topRight} />
+            <ComponentFinder component={props.topRight} matchId={props.matchId} />
           </TopRightContainer>
         </TopRow>
         <MainContainer>
-          <ComponentFinder component={props.main} />
+          <ComponentFinder component={props.main} matchId={props.matchId} />
         </MainContainer>
       </Container>
     </ThemeProvider>

@@ -5,8 +5,6 @@ import Head from 'next/head';
 import withData from '../libs/withData';
 import Screen from '../components/Screen';
 
-import { Bayern } from '../mocks/teams';
-
 class Playerlist extends React.Component {
   render() {
     return (
@@ -24,6 +22,7 @@ class Playerlist extends React.Component {
             showLogos: true,
             showColors: true,
           }}
+          matchId="cj5jb3dhib2o101599yo4827f"
         />
         <DevTools />
       </div>
