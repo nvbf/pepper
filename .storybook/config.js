@@ -8,6 +8,7 @@ function loadStories() {
   require('../stories/lineupStory');
   require('../stories/admin/navBarStory');
   require('../stories/admin/playerDataStory');
+  require('../stories/admin/playerDataEditStory');
 }
 
 configure(loadStories, module);
