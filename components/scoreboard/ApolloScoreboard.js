@@ -1,7 +1,11 @@
 import { gql, graphql } from 'react-apollo';
 import Scoreboard from './Scoreboard';
-
-const matchId = 'cj5jb3dhib2o101599yo4827f';
+import {
+  getAwayTeamSets,
+  getHomeTeamSets,
+  getHomeTeamPoints,
+  getAwayTeamPoints,
+} from './scoreExtractor';
 
 const FETCH_SCORE_QUERY = gql`
   query FetchScoreQuery($matchId: ID!) {
@@ -21,7 +25,7 @@ const FETCH_SCORE_QUERY = gql`
         startTime
         homeScore
         awayScore
-        setNumber
+        number
       }
     }
   }
@@ -37,46 +41,17 @@ const config = {
       name: Match.homeTeam.shortName,
       logo: '',
       color: Match.homeTeam.color,
-      // points: getHomeTeamPoints(sets),
-      // sets: getAwayTeamSets(sets),
-      points: 2,
-      sets: 1,
+      points: getHomeTeamPoints(Match.sets),
+      sets: getHomeTeamSets(Match.sets),
     },
     awayTeam: {
       name: Match.awayTeam.shortName,
       logo: '',
       color: Match.homeTeam.color,
-      // points: getAwayTeamPoints(sets),
-      // sets: getAwayTeamSets(sets),
-      points: 10,
-      sets: 2,
+      points: getAwayTeamPoints(Match.sets),
+      sets: getAwayTeamSets(Match.sets),
     },
   }),
 };
 
 export default graphql(FETCH_SCORE_QUERY, config)(Scoreboard);
-
-/*
-export default inject((stores, props) => {
-  const uiStore = stores.uiStore[props.position];
-  return {
-    isShowing: uiStore.isShowing,
-    showLogos: uiStore.showLogos,
-    showColors: uiStore.showColors,
-    homeTeam: {
-      name: stores.homeTeamStore.shortName,
-      logo: stores.homeTeamStore.logo,
-      color: stores.homeTeamStore.color,
-      points: stores.scoreStore.currentPoints.homeTeam,
-      sets: stores.scoreStore.currentSets.homeTeam,
-    },
-    awayTeam: {
-      name: stores.awayTeamStore.shortName,
-      logo: stores.awayTeamStore.logo,
-      color: stores.awayTeamStore.color,
-      points: stores.scoreStore.currentPoints.awayTeam,
-      sets: stores.scoreStore.currentSets.awayTeam,
-    },
-  };
-})(observer(Scoreboard));
-*/
