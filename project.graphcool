@@ -1,5 +1,5 @@
 # project: pepper
-# version: 30
+# version: 38
 
 type File implements Node {
   contentType: String!
@@ -21,6 +21,7 @@ type User implements Node {
 }
 
 type Player implements Node {
+  gender: Gender!
   number: Int!
   name: String!
   position: String!
@@ -39,6 +40,7 @@ type Team implements Node {
   name: String!
   shortName: String!
   createdAt: DateTime!
+  slug: String! @isUnique
   id: ID! @isUnique
   updatedAt: DateTime!
   homeMatches: [Match!]! @relation(name: "HomeTeamMatch")
@@ -47,14 +49,15 @@ type Team implements Node {
 }
 
 type Match implements Node {
-  firstReferee: Referee! @relation(name: "FirstRefereeMatch")
-  secondReferee: Referee! @relation(name: "SecondRefereeMatch")
+  firstReferee: Referee @relation(name: "FirstRefereeMatch")
+  secondReferee: Referee @relation(name: "SecondRefereeMatch")
   createdAt: DateTime!
   id: ID! @isUnique
   sets: [Set!]! @relation(name: "MatchSet")
   updatedAt: DateTime!
   homeTeam: Team! @relation(name: "HomeTeamMatch")
   awayTeam: Team! @relation(name: "AwayTeamMatch")
+  screens: [Screen!]! @relation(name: "MatchScreen")
 }
 
 type Set implements Node {
@@ -75,4 +78,34 @@ type Referee implements Node {
   createdAt: DateTime!
   id: ID! @isUnique
   updatedAt: DateTime!
+}
+
+type Overlay implements Node {
+  isShowing: Boolean!
+  position: ScreenPosition!
+  componentName: String!
+  screen: Screen @relation(name: "ScreenOverlay")
+  createdAt: DateTime!
+  id: ID! @isUnique
+  updatedAt: DateTime!
+}
+
+type Screen implements Node {
+  match: Match! @relation(name: "MatchScreen")
+  overlays: [Overlay!]! @relation(name: "ScreenOverlay")
+  createdAt: DateTime!
+  id: ID! @isUnique
+  updatedAt: DateTime!
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum ScreenPosition {
+  TOP_LEFT
+  TOP_CENTER
+  TOP_RIGHT
+  MAIN
 }
