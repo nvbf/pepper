@@ -24,7 +24,11 @@ const TestComponent = styled.div`
 const TopLeft = <TestComponent background="tomato">TopLeft</TestComponent>;
 const TopMiddle = <TestComponent background="transparent">TopMiddle</TestComponent>;
 const TopRight = <TestComponent background="transparent">Blue</TestComponent>;
-const Main = <TestComponent background="lightgray" height={900} width={1920}>Main</TestComponent>;
+const Main = (
+  <TestComponent background="lightgray" height={900} width={1920}>
+    Main
+  </TestComponent>
+);
 
 screenStory.add('normal', () =>
   <Screen topLeft={TopLeft} topMiddle={TopMiddle} topRight={TopRight} main={Main} />,

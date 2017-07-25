@@ -25,7 +25,7 @@ const Container = styled.div`
 
 const Dangle = styled.div`
   height: 100%;
-  background: linear-gradient(#0074D9, #001f3f);
+  background: linear-gradient(#0074d9, #001f3f);
   width: 8px;
 `;
 
@@ -82,7 +82,9 @@ class BigHeader extends React.Component {
       >
         <Container>
           <Logo src={this.props.logo} />
-          <Text>{this.props.text}</Text>
+          <Text>
+            {this.props.text}
+          </Text>
           <Dangle />
         </Container>
       </AnimatedContainer>

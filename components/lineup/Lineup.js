@@ -16,10 +16,10 @@ const Container = styled.div`
 
 const BackgroundContainer = styled.div`
   background-color: ${darken(0.6, color.white)};
-  background: linear-gradient(${darken(0.8, 'rgba(255, 255, 255, 0.7)')}, ${darken(
-  0.6,
-  'rgba(255, 255, 255, 0.7)',
-)});
+  background: linear-gradient(
+    ${darken(0.8, 'rgba(255, 255, 255, 0.7)')},
+    ${darken(0.6, 'rgba(255, 255, 255, 0.7)')}
+  );
   height: 700px;
   width: 908px;
   display: flex;
@@ -87,8 +87,12 @@ const PlayerName = styled.div`
 function PlayerThing(props: { x: number, y: number, player: Player, libero?: boolean }) {
   return (
     <PlayerContainer left={props.x} top={props.y}>
-      <PlayerCircle libero={props.libero}>{props.player.number}</PlayerCircle>
-      <PlayerName>{props.player.name}</PlayerName>
+      <PlayerCircle libero={props.libero}>
+        {props.player.number}
+      </PlayerCircle>
+      <PlayerName>
+        {props.player.name}
+      </PlayerName>
     </PlayerContainer>
   );
 }

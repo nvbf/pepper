@@ -29,7 +29,9 @@ const Anchor = styled.a`
   font-size: 18px;
   line-height: 43px;
   padding: ${props => (props.noRightPadding ? '0 0 0 16px' : '0 16px')};
-  &:hover { color: #777; }
+  &:hover {
+    color: #777;
+  }
 `;
 
 function NavBar() {
@@ -39,11 +41,21 @@ function NavBar() {
         <Logo>Pepper</Logo>
       </LeftContent>
       <RightContent>
-        <Link><Anchor>Lag og Spillere</Anchor></Link>
-        <Link><Anchor>Score</Anchor></Link>
-        <Link><Anchor>Oppstilling</Anchor></Link>
-        <Link><Anchor>Statistikk</Anchor></Link>
-        <Link noRightPadding><Anchor>Intervju</Anchor></Link>
+        <Link>
+          <Anchor>Lag og Spillere</Anchor>
+        </Link>
+        <Link>
+          <Anchor>Score</Anchor>
+        </Link>
+        <Link>
+          <Anchor>Oppstilling</Anchor>
+        </Link>
+        <Link>
+          <Anchor>Statistikk</Anchor>
+        </Link>
+        <Link noRightPadding>
+          <Anchor>Intervju</Anchor>
+        </Link>
       </RightContent>
     </Container>
   );
