@@ -2,7 +2,6 @@
 import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import ComponentFinder from './ComponentFinder';
-import DebugControlPanel from './DebugControlPanel';
 
 const theme = size => ({
   size: size || '1080p',
@@ -70,7 +69,6 @@ export default function Screen(props: {
         <MainContainer>
           <ComponentFinder component={props.main} />
         </MainContainer>
-        <DebugControlPanel />
       </Container>
     </ThemeProvider>
   );

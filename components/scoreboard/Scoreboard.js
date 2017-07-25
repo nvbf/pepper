@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { darken } from 'polished';
-import { inject, observer } from 'mobx-react';
 import TeamRow from './TeamRow';
 import color from '../../libs/color';
 import OpacityContainer from '../OpacityContainer';
@@ -112,7 +111,8 @@ export type ScoreboardProps = {
   isShowing: boolean,
 };
 
-export function Scoreboard(props: ScoreboardProps) {
+export default function Scoreboard(props: ScoreboardProps) {
+  console.log('scoreboardprops', props);
   return (
     <OpacityContainer isShowing={props.isShowing}>
       <Container>
@@ -162,36 +162,13 @@ Scoreboard.defaultProps = {
     points: 0,
     sets: 0,
     logo: '',
-    color: '',
+    color: '#ff0000',
   },
   awayTeam: {
     name: '',
     points: 0,
     sets: 0,
     logo: '',
-    color: '',
+    color: '#ff0000',
   },
 };
-
-export default inject((stores, props) => {
-  const uiStore = stores.uiStore[props.position];
-  return {
-    isShowing: uiStore.isShowing,
-    showLogos: uiStore.showLogos,
-    showColors: uiStore.showColors,
-    homeTeam: {
-      name: stores.homeTeamStore.shortName,
-      logo: stores.homeTeamStore.logo,
-      color: stores.homeTeamStore.color,
-      points: stores.scoreStore.currentPoints.homeTeam,
-      sets: stores.scoreStore.currentSets.homeTeam,
-    },
-    awayTeam: {
-      name: stores.awayTeamStore.shortName,
-      logo: stores.awayTeamStore.logo,
-      color: stores.awayTeamStore.color,
-      points: stores.scoreStore.currentPoints.awayTeam,
-      sets: stores.scoreStore.currentSets.awayTeam,
-    },
-  };
-})(observer(Scoreboard));
