@@ -17,26 +17,22 @@ const Container = styled.div`
   box-shadow: 0px 2px 6px ${transparentize(0.8, color.seaBlue)};
 `;
 
-class PlayerData extends React.Component {
-  props: {
-    data: { loading: boolean, error: boolean, Team: Array<any> },
-    team: Team,
-  };
-
-  render() {
-    if (this.props.data.error) {
-      return <div>Error</div>;
-    }
-    if (this.props.data.loading) {
-      return <div>Loading</div>;
-    }
-    return (
-      <Container>
-        <TableHead logo={this.props.team.logo} name={this.props.data.Team.shortName} />
-        {this.props.data.Team.players.map(player => <PlayerLine key={player.id} player={player} />)}
-      </Container>
-    );
+function PlayerData(props: {
+  data: { loading: boolean, error: boolean, Team: Array<any> },
+  team: Team,
+}) {
+  if (props.data.error) {
+    return <div>Error</div>;
   }
+  if (props.data.loading) {
+    return <div>Loading</div>;
+  }
+  return (
+    <Container>
+      <TableHead logo={props.team.logo} name={props.data.Team.shortName} />
+      {this.props.data.Team.players.map(player => <PlayerLine key={player.id} player={player} />)}
+    </Container>
+  );
 }
 
 const PLAYERS_FROM_TEAM_QUERY = gql`
