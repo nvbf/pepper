@@ -9,10 +9,6 @@ class Playerlist extends React.Component {
   render() {
     return (
       <div>
-        <Head>
-          <title>Pepper Playerlist</title>
-          <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        </Head>
         <Screen
           size="1080p"
           topLeft={{

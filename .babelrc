@@ -4,6 +4,7 @@
   ],
   "plugins": [
     "transform-flow-strip-types",
-    "transform-decorators-legacy"
+    "transform-decorators-legacy",
+    ["styled-components", { "ssr": true, "displayName": true, "preprocess": false }]
   ]
 }
