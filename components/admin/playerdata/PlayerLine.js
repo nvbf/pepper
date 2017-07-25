@@ -47,16 +47,7 @@ const Position = styled.div`
 
 function PlayerLine(props: { player: any, active: boolean, toggleActive: Function }) {
   return (
-    <Container
-      active={props.player.active}
-      onClick={() =>
-        props.toggleActive({
-          variables: {
-            id: props.player.id,
-            active: !props.player.active,
-          },
-        })}
-    >
+    <Container active={props.player.active} onClick={props.toggleActive}>
       <PlayerNumber active={props.player.active}>
         {props.player.number}
       </PlayerNumber>
@@ -80,4 +71,20 @@ const TOGGLE_ACTIVE_MUTATION = gql`
   }
 `;
 
-export default graphql(TOGGLE_ACTIVE_MUTATION, { name: 'toggleActive' })(PlayerLine);
+export default graphql(TOGGLE_ACTIVE_MUTATION, {
+  props: ({ mutate, ownProps }) => ({
+    toggleActive: () =>
+      mutate({
+        variables: { id: ownProps.player.id, active: !ownProps.player.active },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          updatePlayer: {
+            id: ownProps.player.id,
+            name: ownProps.player.name,
+            active: !ownProps.player.active,
+            __typename: 'Player',
+          },
+        },
+      }),
+  }),
+})(PlayerLine);

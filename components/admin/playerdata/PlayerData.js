@@ -23,10 +23,6 @@ class PlayerData extends React.Component {
     team: Team,
   };
 
-  handlePlayerClick(id) {
-    console.log(id);
-  }
-
   render() {
     if (this.props.data.error) {
       return <div>Error</div>;
@@ -37,13 +33,7 @@ class PlayerData extends React.Component {
     return (
       <Container>
         <TableHead logo={this.props.team.logo} name={this.props.data.Team.shortName} />
-        {this.props.data.Team.players.map(player =>
-          (<PlayerLine
-            key={player.id}
-            player={player}
-            onClick={() => this.handlePlayerClick(player.id)}
-          />),
-        )}
+        {this.props.data.Team.players.map(player => <PlayerLine key={player.id} player={player} />)}
       </Container>
     );
   }
