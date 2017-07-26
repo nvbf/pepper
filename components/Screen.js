@@ -50,49 +50,53 @@ type Overlay = {
   componentName: String,
 };
 
-function Screen(props: {
-  size: '1080p' | '720p',
-  topLeft: Function,
-  topMiddle: Function,
-  topRight: Function,
-  main: Function,
-  data: {
-    loading: boolean,
-    Screen: {
-      match: {
-        id: String,
-      },
-      overlays: Array<Overlay>,
-    },
-  },
-}) {
-  if (props.data.loading) {
-    return null;
+class ScreenPage extends React.Component {
+  componentDidMount() {
+    this.props.subscribeToOverlays();
   }
-  const matchId = props.data.Screen.match.id;
-  const overlays = props.data.Screen.overlays;
-  const topLeftOverlay = overlays.find(o => o.position === 'TOP_LEFT');
 
-  return (
-    <ThemeProvider theme={theme(props.size)}>
-      <Container>
-        <TopRow>
-          <TopLeftContainer>
-            <ComponentFinder component={topLeftOverlay} matchId={matchId} />
-          </TopLeftContainer>
-          <TopMiddleContainer>
-            <ComponentFinder component={props.topMiddle} matchId={matchId} />
-          </TopMiddleContainer>
-          <TopRightContainer>
-            <ComponentFinder component={props.topRight} matchId={matchId} />
-          </TopRightContainer>
-        </TopRow>
-        <MainContainer>
-          <ComponentFinder component={props.main} matchId={matchId} />
-        </MainContainer>
-      </Container>
-    </ThemeProvider>
-  );
+  props: {
+    size: '1080p' | '720p',
+    topLeft: Function,
+    topMiddle: Function,
+    topRight: Function,
+    main: Function,
+    loading: boolean,
+    overlays: Array<Overlay>,
+    matchId: String,
+    subscribeToOverlays: Function,
+  };
+
+  render() {
+    if (this.props.loading) {
+      return null;
+    }
+    const topLeftOverlay = this.props.overlays.find(o => o.position === 'TOP_LEFT');
+    const topCenterOverlay = this.props.overlays.find(o => o.position === 'TOP_CENTER');
+    const topRightOverlay = this.props.overlays.find(o => o.position === 'TOP_RIGHT');
+    const mainOverlay = this.props.overlays.find(o => o.position === 'MAIN');
+
+    return (
+      <ThemeProvider theme={theme(this.props.size)}>
+        <Container>
+          <TopRow>
+            <TopLeftContainer>
+              <ComponentFinder component={topLeftOverlay} matchId={this.props.matchId} />
+            </TopLeftContainer>
+            <TopMiddleContainer>
+              <ComponentFinder component={topCenterOverlay} matchId={this.props.matchId} />
+            </TopMiddleContainer>
+            <TopRightContainer>
+              <ComponentFinder component={topRightOverlay} matchId={this.props.matchId} />
+            </TopRightContainer>
+          </TopRow>
+          <MainContainer>
+            <ComponentFinder component={mainOverlay} matchId={this.props.matchId} />
+          </MainContainer>
+        </Container>
+      </ThemeProvider>
+    );
+  }
 }
 
 const FETCH_SCREEN_QUERY = gql`
@@ -111,10 +115,53 @@ const FETCH_SCREEN_QUERY = gql`
   }
 `;
 
+const OVERLAY_SUBSCRIPTION = gql`
+  subscription SubscribeOnOverlays($screenId: ID!) {
+    Overlay(
+      filter: { mutation_in: [CREATED, UPDATED, DELETED], node: { screen: { id: $screenId } } }
+    ) {
+      node {
+        id
+        componentName
+        isShowing
+        position
+      }
+    }
+  }
+`;
+
 export default graphql(FETCH_SCREEN_QUERY, {
   options: props => ({
     variables: {
       screenId: props.screenId,
     },
   }),
-})(Screen);
+  props: ({ ownProps, data: { Screen, subscribeToMore, loading } }) => ({
+    subscribeToOverlays: () =>
+      subscribeToMore({
+        document: OVERLAY_SUBSCRIPTION,
+        variables: {
+          screenId: ownProps.screenId,
+        },
+        updateQuery: (prev, { subscriptionData }) => {
+          if (!subscriptionData.data) {
+            return prev;
+          }
+          const newOverlay = subscriptionData.data.Overlay.node;
+          const allOverlaysButNew = prev.Screen.overlays.filter(
+            o => o.position !== newOverlay.position,
+          );
+          return {
+            ...prev,
+            Screen: {
+              ...prev.Screen,
+              sets: allOverlaysButNew.concat(newOverlay),
+            },
+          };
+        },
+      }),
+    overlays: Screen.overlays,
+    matchId: Screen.match.id,
+    loading,
+  }),
+})(ScreenPage);
