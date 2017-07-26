@@ -1,7 +1,5 @@
 // @flow
 import React from 'react';
-import DevTools from 'mobx-react-devtools';
-import Head from 'next/head';
 import withData from '../libs/withData';
 import Screen from '../components/Screen';
 
@@ -18,9 +16,8 @@ class Playerlist extends React.Component {
             showLogos: true,
             showColors: true,
           }}
-          matchId="cj5jb3dhib2o101599yo4827f"
+          screenId="cj5jb9cz9jrzu0110lpdq9cf4"
         />
-        <DevTools />
       </div>
     );
   }

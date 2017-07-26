@@ -74,7 +74,7 @@ const config = {
           };
         },
       }),
-    isShowing: true,
+    isShowing: ownProps.isShowing,
     showLogos: false,
     showColors: true,
     homeTeam: {

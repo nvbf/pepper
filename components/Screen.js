@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
+import { gql, graphql } from 'react-apollo';
 import ComponentFinder from './ComponentFinder';
 
 const theme = size => ({
@@ -45,32 +46,75 @@ const MainContainer = styled.div`
   overflow: hidden;
 `;
 
-export default function Screen(props: {
+type Overlay = {
+  componentName: String,
+};
+
+function Screen(props: {
   size: '1080p' | '720p',
   topLeft: Function,
   topMiddle: Function,
   topRight: Function,
   main: Function,
-  matchId: String,
+  data: {
+    loading: boolean,
+    Screen: {
+      match: {
+        id: String,
+      },
+      overlays: Array<Overlay>,
+    },
+  },
 }) {
+  if (props.data.loading) {
+    return null;
+  }
+  const matchId = props.data.Screen.match.id;
+  const overlays = props.data.Screen.overlays;
+  const topLeftOverlay = overlays.find(o => o.position === 'TOP_LEFT');
+
   return (
     <ThemeProvider theme={theme(props.size)}>
       <Container>
         <TopRow>
           <TopLeftContainer>
-            <ComponentFinder component={props.topLeft} matchId={props.matchId} />
+            <ComponentFinder component={topLeftOverlay} matchId={matchId} />
           </TopLeftContainer>
           <TopMiddleContainer>
-            <ComponentFinder component={props.topMiddle} matchId={props.matchId} />
+            <ComponentFinder component={props.topMiddle} matchId={matchId} />
           </TopMiddleContainer>
           <TopRightContainer>
-            <ComponentFinder component={props.topRight} matchId={props.matchId} />
+            <ComponentFinder component={props.topRight} matchId={matchId} />
           </TopRightContainer>
         </TopRow>
         <MainContainer>
-          <ComponentFinder component={props.main} matchId={props.matchId} />
+          <ComponentFinder component={props.main} matchId={matchId} />
         </MainContainer>
       </Container>
     </ThemeProvider>
   );
 }
+
+const FETCH_SCREEN_QUERY = gql`
+  query FetchScreen($screenId: ID!) {
+    Screen(id: $screenId) {
+      overlays {
+        componentName
+        id
+        position
+        isShowing
+      }
+      match {
+        id
+      }
+    }
+  }
+`;
+
+export default graphql(FETCH_SCREEN_QUERY, {
+  options: props => ({
+    variables: {
+      screenId: props.screenId,
+    },
+  }),
+})(Screen);
