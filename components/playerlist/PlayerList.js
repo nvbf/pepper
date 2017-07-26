@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { inject } from 'mobx-react';
 import styled from 'styled-components';
 import BarList from './BarList';
 import BigHeader from './BigHeader';
@@ -46,6 +45,11 @@ export class PlayerList extends React.Component {
     this.startUpdate = this.startUpdate.bind(this);
   }
 
+  componentDidMount() {
+    this.stopUpdate();
+    setTimeout(this.startUpdate, 600);
+  }
+
   componentWillUpdate(nextProps) {
     if (!this.props.isShowing && nextProps.isShowing) {
       this.stopUpdate();
@@ -82,7 +86,6 @@ export class PlayerList extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     if (this.props.loading) {
       return null;
     }
@@ -115,6 +118,7 @@ export class PlayerList extends React.Component {
 }
 
 PlayerList.propTypes = {
+  loading: PropTypes.bool.isRequired,
   isShowing: PropTypes.bool.isRequired,
   team: PropTypes.shape({
     players: PropTypes.array,
