@@ -31,7 +31,7 @@ const RowContainer = styled.div`
   justify-content: space-between;
 `;
 
-export class PlayerList extends React.Component {
+class PlayerList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -57,6 +57,10 @@ export class PlayerList extends React.Component {
     } else if (this.props.isShowing && !nextProps.isShowing) {
       this.stopUpdate();
     }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.intervalId);
   }
 
   stopUpdate() {

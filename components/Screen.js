@@ -62,10 +62,6 @@ class ScreenPage extends React.Component {
 
   props: {
     size: '1080p' | '720p',
-    topLeft: Function,
-    topMiddle: Function,
-    topRight: Function,
-    main: Function,
     loading: boolean,
     overlays: Array<Overlay>,
     matchId: String,
