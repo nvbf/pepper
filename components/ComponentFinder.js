@@ -1,6 +1,6 @@
 import React from 'react';
 import ApolloScoreboard from './scoreboard/ApolloScoreboard';
-import MobxPlayerList from './playerlist/PlayerList';
+import ApolloPlayerList from './playerlist/ApolloPlayerList';
 
 function ComponentFinder(props: { component: any, matchId: String }) {
   if (!props.component) {
@@ -10,7 +10,7 @@ function ComponentFinder(props: { component: any, matchId: String }) {
     case 'Scoreboard':
       return <ApolloScoreboard {...props.component} matchId={props.matchId} />;
     case 'PlayerList':
-      return <MobxPlayerList position={props.component.position} />;
+      return <ApolloPlayerList {...props.component} matchId={props.matchId} />;
     default:
       return null;
   }

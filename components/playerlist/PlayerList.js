@@ -82,10 +82,16 @@ export class PlayerList extends React.Component {
   }
 
   render() {
+    console.log(this.props);
+    if (this.props.loading) {
+      return null;
+    }
+
     const selectedPlayer = this.props.team.players[Math.max(this.state.selectedIndex, 0)];
     const prevPlayer = this.props.team.players[Math.max(0, this.state.selectedIndex - 1)];
 
     const { team } = this.props;
+
     return (
       <OuterContainer>
         <Container>
@@ -115,7 +121,4 @@ PlayerList.propTypes = {
   }).isRequired,
 };
 
-export default inject((allStores, props) => ({
-  team: allStores.awayTeamStore,
-  isShowing: allStores.uiStore[props.position].isShowing,
-}))(PlayerList);
+export default PlayerList;
