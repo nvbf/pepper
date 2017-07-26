@@ -12,6 +12,7 @@ export default class MyDocument extends Document {
         <Head>
           <title>Pepper</title>
           <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+          <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet" />
           {styleTags}
         </Head>
         <body>

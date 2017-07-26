@@ -5,6 +5,7 @@ const TEAM_QUERY = gql`
   query GetTeam($teamSlug: String!) {
     Team(slug: $teamSlug) {
       name
+      logo
       players {
         name
         number
@@ -17,7 +18,7 @@ const TEAM_QUERY = gql`
 
 export default graphql(TEAM_QUERY, {
   options: {
-    variables: { teamSlug: 'ntnui' },
+    variables: { teamSlug: 'tvn' },
   },
   props: ({ ownProps, data: { Team, loading } }) => ({
     isShowing: ownProps.isShowing,

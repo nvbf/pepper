@@ -1,8 +1,13 @@
 // @flow
 import React from 'react';
-import styled, { ThemeProvider } from 'styled-components';
+import styled, { ThemeProvider, injectGlobal } from 'styled-components';
 import { gql, graphql } from 'react-apollo';
 import ComponentFinder from './ComponentFinder';
+
+// eslint-disable-next-line
+injectGlobal`
+  font-family: 'Source Sans Pro', sans-serif;
+`;
 
 const theme = size => ({
   size: size || '1080p',
