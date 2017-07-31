@@ -12,6 +12,7 @@ function loadStories() {
   require('../stories/admin/navBarStory');
   require('../stories/admin/playerDataStory');
   require('../stories/admin/playerDataEditStory');
+  require('../stories/admin/scoreControlStory');
 }
 
 configure(loadStories, module);

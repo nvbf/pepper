@@ -11,7 +11,6 @@ const Container = styled.div`
   margin: 16px;
   width: 400px;
   min-height: 350px;
-  background-color: blue;
   border-radius: 6px;
   background-color: ${color.white};
   box-shadow: 0px 2px 6px ${transparentize(0.8, color.seaBlue)};
