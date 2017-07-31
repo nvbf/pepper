@@ -2,7 +2,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { darken } from 'polished';
-import { observer } from 'mobx-react';
 import Animated from 'animated/lib/targets/react-dom';
 
 const Row = styled.div`
@@ -25,9 +24,9 @@ const ShirtColor = styled.div`
   border-radius: 0px;
   background-color: ${props => props.hex};
   background: linear-gradient(
-    ${props => darken(0.15, props.hex)},
+    ${props => darken(0.15, props.hex || 'rgba(0, 0, 0, 0)')},
     ${props => props.hex},
-    ${props => darken(0.15, props.hex)}
+    ${props => darken(0.15, props.hex || 'rgba(0, 0, 0, 0)')}
   );
   width: 8px;
   height: 50px;
@@ -67,7 +66,6 @@ export type TeamRowState = {
   colorAnim: any,
 };
 
-@observer
 class TeamRow extends React.Component {
   static defaultProps = {
     logo: '',

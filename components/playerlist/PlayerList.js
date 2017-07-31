@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { inject } from 'mobx-react';
 import styled from 'styled-components';
 import BarList from './BarList';
 import BigHeader from './BigHeader';
@@ -32,7 +31,7 @@ const RowContainer = styled.div`
   justify-content: space-between;
 `;
 
-export class PlayerList extends React.Component {
+class PlayerList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -46,6 +45,11 @@ export class PlayerList extends React.Component {
     this.startUpdate = this.startUpdate.bind(this);
   }
 
+  componentDidMount() {
+    this.stopUpdate();
+    setTimeout(this.startUpdate, 600);
+  }
+
   componentWillUpdate(nextProps) {
     if (!this.props.isShowing && nextProps.isShowing) {
       this.stopUpdate();
@@ -53,6 +57,10 @@ export class PlayerList extends React.Component {
     } else if (this.props.isShowing && !nextProps.isShowing) {
       this.stopUpdate();
     }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.intervalId);
   }
 
   stopUpdate() {
@@ -82,10 +90,15 @@ export class PlayerList extends React.Component {
   }
 
   render() {
+    if (this.props.loading) {
+      return null;
+    }
+
     const selectedPlayer = this.props.team.players[Math.max(this.state.selectedIndex, 0)];
     const prevPlayer = this.props.team.players[Math.max(0, this.state.selectedIndex - 1)];
 
     const { team } = this.props;
+
     return (
       <OuterContainer>
         <Container>
@@ -109,13 +122,11 @@ export class PlayerList extends React.Component {
 }
 
 PlayerList.propTypes = {
+  loading: PropTypes.bool.isRequired,
   isShowing: PropTypes.bool.isRequired,
   team: PropTypes.shape({
     players: PropTypes.array,
   }).isRequired,
 };
 
-export default inject((allStores, props) => ({
-  team: allStores.awayTeamStore,
-  isShowing: allStores.uiStore[props.position].isShowing,
-}))(PlayerList);
+export default PlayerList;

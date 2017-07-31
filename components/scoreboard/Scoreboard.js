@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { darken } from 'polished';
-import { inject, observer } from 'mobx-react';
 import TeamRow from './TeamRow';
 import color from '../../libs/color';
 import OpacityContainer from '../OpacityContainer';
@@ -110,50 +109,59 @@ export type ScoreboardProps = {
   showLogos: boolean,
   showColors: boolean,
   isShowing: boolean,
+  subscribeToSetData: Function,
 };
 
-export function Scoreboard(props: ScoreboardProps) {
-  return (
-    <OpacityContainer isShowing={props.isShowing}>
-      <Container>
-        <TeamRowContainer>
-          <TeamRow
-            name={props.homeTeam.name}
-            logo={props.homeTeam.logo}
-            color={props.homeTeam.color}
-            showLogo={props.showLogos}
-            showColor={props.showColors}
-            textColor={boardColors.nameText}
-          />
-          <TeamRow
-            name={props.awayTeam.name}
-            logo={props.awayTeam.logo}
-            color={props.awayTeam.color}
-            showLogo={props.showLogos}
-            showColor={props.showColors}
-            textColor={boardColors.nameText}
-          />
-        </TeamRowContainer>
-        <SetsContainer>
-          <SetScore>
-            {props.homeTeam.sets}
-          </SetScore>
-          <SetScore>
-            {props.awayTeam.sets}
-          </SetScore>
-        </SetsContainer>
-        <PointsContainer>
-          <Points>
-            {props.homeTeam.points}
-          </Points>
-          <Points>
-            {props.awayTeam.points}
-          </Points>
-        </PointsContainer>
-        <Dangle />
-      </Container>
-    </OpacityContainer>
-  );
+export default class Scoreboard extends React.Component {
+  componentDidMount() {
+    this.props.subscribeToSetData();
+  }
+
+  props: ScoreboardProps;
+
+  render() {
+    return (
+      <OpacityContainer isShowing={this.props.isShowing}>
+        <Container>
+          <TeamRowContainer>
+            <TeamRow
+              name={this.props.homeTeam.name}
+              logo={this.props.homeTeam.logo}
+              color={this.props.homeTeam.color}
+              showLogo={this.props.showLogos}
+              showColor={this.props.showColors}
+              textColor={boardColors.nameText}
+            />
+            <TeamRow
+              name={this.props.awayTeam.name}
+              logo={this.props.awayTeam.logo}
+              color={this.props.awayTeam.color}
+              showLogo={this.props.showLogos}
+              showColor={this.props.showColors}
+              textColor={boardColors.nameText}
+            />
+          </TeamRowContainer>
+          <SetsContainer>
+            <SetScore>
+              {this.props.homeTeam.sets}
+            </SetScore>
+            <SetScore>
+              {this.props.awayTeam.sets}
+            </SetScore>
+          </SetsContainer>
+          <PointsContainer>
+            <Points>
+              {this.props.homeTeam.points}
+            </Points>
+            <Points>
+              {this.props.awayTeam.points}
+            </Points>
+          </PointsContainer>
+          <Dangle />
+        </Container>
+      </OpacityContainer>
+    );
+  }
 }
 
 Scoreboard.defaultProps = {
@@ -162,36 +170,13 @@ Scoreboard.defaultProps = {
     points: 0,
     sets: 0,
     logo: '',
-    color: '',
+    color: '#ff0000',
   },
   awayTeam: {
     name: '',
     points: 0,
     sets: 0,
     logo: '',
-    color: '',
+    color: '#ff0000',
   },
 };
-
-export default inject((stores, props) => {
-  const uiStore = stores.uiStore[props.position];
-  return {
-    isShowing: uiStore.isShowing,
-    showLogos: uiStore.showLogos,
-    showColors: uiStore.showColors,
-    homeTeam: {
-      name: stores.homeTeamStore.shortName,
-      logo: stores.homeTeamStore.logo,
-      color: stores.homeTeamStore.color,
-      points: stores.scoreStore.currentPoints.homeTeam,
-      sets: stores.scoreStore.currentSets.homeTeam,
-    },
-    awayTeam: {
-      name: stores.awayTeamStore.shortName,
-      logo: stores.awayTeamStore.logo,
-      color: stores.awayTeamStore.color,
-      points: stores.scoreStore.currentPoints.awayTeam,
-      sets: stores.scoreStore.currentSets.awayTeam,
-    },
-  };
-})(observer(Scoreboard));
