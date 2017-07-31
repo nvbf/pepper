@@ -38,6 +38,7 @@ const PLAYERS_FROM_TEAM_QUERY = gql`
       id
       name
       shortName
+      logo
       players(orderBy: position_ASC) {
         id
         name
