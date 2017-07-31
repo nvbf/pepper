@@ -2,8 +2,11 @@
 import { configure } from '@storybook/react';
 
 function loadStories() {
-  require('../stories/playerListStory');
-  require('../stories/screenStory');
+  require('../stories/playerlist/playerListStory');
+  require('../stories/playerlist/barStory');
+  require('../stories/playerlist/barListStory');
+  require('../stories/playerlist/headerStory');
+  // require('../stories/screenStory');
   require('../stories/scoreboardStory');
   require('../stories/lineupStory');
   require('../stories/admin/navBarStory');
