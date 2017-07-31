@@ -26,7 +26,7 @@ const Container = styled.div`
 const RowContainer = styled.div`
   width: 100%;
   display: flex;
-  flex-directon: row;
+  flex-direction: row;
   align-items: space-between;
   justify-content: space-between;
 `;

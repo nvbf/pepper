@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, number, text } from '@storybook/addon-knobs';
-import { Scoreboard } from '../components/scoreboard/Scoreboard';
+import Scoreboard from '../components/scoreboard/Scoreboard';
 import { Bayern, ManUnited } from '../mocks/teams';
 
 const scoreboardStory = storiesOf('Scoreboard', module);
@@ -32,11 +32,18 @@ scoreboardStory.add('with two teams', () => {
   const manUnitedScore = {
     name: text('manutd name', ManUnited.shortName),
     logo: ManUnited.logo,
-    sets: 1,
-    points: 19,
-    color: '#ee0000',
+    sets: numberRange('manutd sets', 0, 3),
+    points: numberRange('manutd points', 0, 30),
+    color: text('manutd shirt color', '#ee0000'),
   };
   return (
-    <Scoreboard homeTeam={bayernScore} awayTeam={manUnitedScore} showColors showLogos isShowing />
+    <Scoreboard
+      subscribeToSetData={() => null}
+      homeTeam={bayernScore}
+      awayTeam={manUnitedScore}
+      showColors
+      showLogos
+      isShowing
+    />
   );
 });
