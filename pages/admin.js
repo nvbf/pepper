@@ -2,7 +2,7 @@ import React from 'react';
 import { injectGlobal } from 'styled-components';
 import withData from '../libs/withData';
 import PlayerData from '../components/admin/playerdata/PlayerData';
-import { ManUnited } from '../mocks/teams';
+import ScoreControl from '../components/admin/scorecontrol/ApolloScoreControl';
 
 // eslint-disable-next-line
 injectGlobal`
@@ -14,7 +14,8 @@ injectGlobal`
 function AdminPage() {
   return (
     <div>
-      <PlayerData team={ManUnited} />
+      <PlayerData />
+      <ScoreControl />
     </div>
   );
 }

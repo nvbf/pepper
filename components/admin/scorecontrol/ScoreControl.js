@@ -2,8 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { transparentize } from 'polished';
 import type { Team } from '../../../types/types';
-
 import color from '../../../libs/color';
+import { getLastSet, isSetFinished } from '../../../libs/setUtils';
+import SetRow from './SetRow';
+import CurrentSetRow from './CurrentSetRow';
+import NewSetButton from './NewSetButton';
 
 const Container = styled.div`
   width: 400px;
@@ -11,7 +14,6 @@ const Container = styled.div`
   background-color: green;
   background-color: ${color.white};
   box-shadow: 0px 2px 6px ${transparentize(0.8, color.seaBlue)};
-  padding: 16px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -19,7 +21,7 @@ const Container = styled.div`
 `;
 
 const SetHeader = styled.div`
-  width: 80px;
+  width: 64px;
   text-align: center;
 `;
 
@@ -29,13 +31,16 @@ const TopRow = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  padding: 16px;
 `;
 
 const NameAndLogo = styled.div`
-  width: 120px;
+  width: 130px;
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
 `;
 
 const Logo = styled.img`
@@ -43,31 +48,15 @@ const Logo = styled.img`
   margin-right: 8px;
 `;
 
-const SetRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  height: 64px;
-`;
-
-const SetNumber = styled.div`
-  width: 80px;
-  text-align: center;
-`;
-
-const Score = styled.div`
-  width: 120px;
-  text-align: center;
-`;
+const Content = styled.div`z-index: 2;`;
 
 const GreyBackground = styled.div`
   position: absolute;
   height: 100%;
-  width: 45px;
-  height: 300px;
+  width: 96px;
   left: 0;
   top: 0;
+  z-index: 1;
   background-color: ${color.extraLightGrey};
 `;
 
@@ -78,41 +67,63 @@ type VolleySet = {
 };
 
 type ScoreControlProps = {
+  matchId: String,
+  loading: boolean,
+  error: boolean,
   homeTeam: Team,
   awayTeam: Team,
   sets: Array<VolleySet>,
 };
 
 function ScoreControl(props: ScoreControlProps) {
+  if (props.loading || props.error) {
+    return null;
+  }
+  const currentSet = getLastSet(props.sets);
+  const setIsFinished = isSetFinished(currentSet);
   return (
     <Container>
-      <TopRow>
-        <SetHeader>SET</SetHeader>
-        <NameAndLogo>
-          <Logo src={props.homeTeam.logo} />
-          {props.homeTeam.shortName}
-        </NameAndLogo>
-        <NameAndLogo>
-          <Logo src={props.awayTeam.logo} />
-          {props.awayTeam.shortName}
-        </NameAndLogo>
-      </TopRow>
+      <GreyBackground />
+      <Content>
+        <TopRow>
+          <SetHeader>SET</SetHeader>
+          <NameAndLogo>
+            <Logo src={props.homeTeam.logo} />
+            {props.homeTeam.shortName}
+          </NameAndLogo>
+          <NameAndLogo>
+            <Logo src={props.awayTeam.logo} />
+            {props.awayTeam.shortName}
+          </NameAndLogo>
+        </TopRow>
 
-      {props.sets.map(set =>
-        (<SetRow>
-          <SetNumber>
-            {set.setNumber}
-          </SetNumber>
-          <Score>
-            {set.homeScore}
-          </Score>
-          <Score>
-            {set.awayScore}
-          </Score>
-        </SetRow>),
-      )}
+        {props.sets.map(
+          set =>
+            set.setNumber === currentSet.setNumber
+              ? <CurrentSetRow
+                id={set.id}
+                key={set.setNumber}
+                setNumber={set.setNumber}
+                homeScore={set.homeScore}
+                awayScore={set.awayScore}
+              />
+              : <SetRow
+                key={set.setNumber}
+                setNumber={set.setNumber}
+                homeScore={set.homeScore}
+                awayScore={set.awayScore}
+              />,
+        )}
+
+        {setIsFinished &&
+          <NewSetButton setNumber={currentSet.setNumber + 1} matchId={props.matchId} />}
+      </Content>
     </Container>
   );
 }
+
+ScoreControl.defaultProps = {
+  sets: [],
+};
 
 export default ScoreControl;

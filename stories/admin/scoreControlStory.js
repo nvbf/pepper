@@ -1,7 +1,8 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import ScoreControl from '../../components/admin/scorecontrol/ScoreControl';
 import { host } from 'storybook-host';
+import { action } from '@storybook/addon-actions';
+import ScoreControl from '../../components/admin/scorecontrol/ScoreControl';
 import { ManUnited, Bayern } from '../../mocks/teams';
 
 const sets = [
@@ -32,4 +33,10 @@ storiesOf('ScoreControl', module)
       background: '#ffffff',
     }),
   )
-  .add('default', () => <ScoreControl homeTeam={ManUnited} awayTeam={Bayern} sets={sets} />);
+  .add('with three sets', () => <ScoreControl homeTeam={ManUnited} awayTeam={Bayern} sets={sets} />)
+  .add('with two sets', () =>
+    <ScoreControl homeTeam={ManUnited} awayTeam={Bayern} sets={sets.slice(0, 2)} />,
+  )
+  .add('with one set', () =>
+    <ScoreControl homeTeam={ManUnited} awayTeam={Bayern} sets={sets.slice(0, 1)} />,
+  );

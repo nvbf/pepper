@@ -53,6 +53,7 @@ const MainContainer = styled.div`
 
 type Overlay = {
   componentName: String,
+  position: String,
 };
 
 class ScreenPage extends React.Component {
