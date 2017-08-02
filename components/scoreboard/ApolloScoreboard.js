@@ -5,7 +5,7 @@ import {
   getHomeTeamSets,
   getHomeTeamPoints,
   getAwayTeamPoints,
-} from './scoreExtractor';
+} from '../../libs/setUtils';
 
 const FETCH_SCORE_QUERY = gql`
   query FetchScoreQuery($matchId: ID!) {
@@ -25,7 +25,7 @@ const FETCH_SCORE_QUERY = gql`
         startTime
         homeScore
         awayScore
-        number
+        setNumber
       }
     }
   }
@@ -39,7 +39,7 @@ const SETS_SUBSCRIPTION = gql`
         startTime
         homeScore
         awayScore
-        number
+        setNumber
       }
     }
   }
@@ -63,7 +63,7 @@ const config = {
             return prev;
           }
           const newSet = subscriptionData.data.Set.node;
-          const allSetsButNew = prev.Match.sets.filter(set => set.number !== newSet.number);
+          const allSetsButNew = prev.Match.sets.filter(set => set.setNumber !== newSet.setNumber);
 
           return {
             ...prev,
