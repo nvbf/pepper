@@ -75,51 +75,59 @@ type ScoreControlProps = {
   sets: Array<VolleySet>,
 };
 
-function ScoreControl(props: ScoreControlProps) {
-  if (props.loading || props.error) {
-    return null;
+class ScoreControl extends React.Component {
+  props: ScoreControlProps;
+
+  componentDidMount() {
+    this.props.subscribeToSetData();
   }
-  const currentSet = getLastSet(props.sets);
-  const setIsFinished = isSetFinished(currentSet);
-  return (
-    <Container>
-      <GreyBackground />
-      <Content>
-        <TopRow>
-          <SetHeader>SET</SetHeader>
-          <NameAndLogo>
-            <Logo src={props.homeTeam.logo} />
-            {props.homeTeam.shortName}
-          </NameAndLogo>
-          <NameAndLogo>
-            <Logo src={props.awayTeam.logo} />
-            {props.awayTeam.shortName}
-          </NameAndLogo>
-        </TopRow>
 
-        {props.sets.map(
-          set =>
-            set.setNumber === currentSet.setNumber
-              ? <CurrentSetRow
-                id={set.id}
-                key={set.setNumber}
-                setNumber={set.setNumber}
-                homeScore={set.homeScore}
-                awayScore={set.awayScore}
-              />
-              : <SetRow
-                key={set.setNumber}
-                setNumber={set.setNumber}
-                homeScore={set.homeScore}
-                awayScore={set.awayScore}
-              />,
-        )}
+  render() {
+    if (this.props.loading || this.props.error) {
+      return null;
+    }
+    const currentSet = getLastSet(this.props.sets);
+    const setIsFinished = isSetFinished(currentSet);
+    return (
+      <Container>
+        <GreyBackground />
+        <Content>
+          <TopRow>
+            <SetHeader>SET</SetHeader>
+            <NameAndLogo>
+              <Logo src={this.props.homeTeam.logo} />
+              {this.props.homeTeam.shortName}
+            </NameAndLogo>
+            <NameAndLogo>
+              <Logo src={this.props.awayTeam.logo} />
+              {this.props.awayTeam.shortName}
+            </NameAndLogo>
+          </TopRow>
 
-        {setIsFinished &&
-          <NewSetButton setNumber={currentSet.setNumber + 1} matchId={props.matchId} />}
-      </Content>
-    </Container>
-  );
+          {this.props.sets.map(
+            set =>
+              set.setNumber === currentSet.setNumber
+                ? <CurrentSetRow
+                  id={set.id}
+                  key={set.setNumber}
+                  setNumber={set.setNumber}
+                  homeScore={set.homeScore}
+                  awayScore={set.awayScore}
+                />
+                : <SetRow
+                  key={set.setNumber}
+                  setNumber={set.setNumber}
+                  homeScore={set.homeScore}
+                  awayScore={set.awayScore}
+                />,
+          )}
+
+          {setIsFinished &&
+            <NewSetButton setNumber={currentSet.setNumber + 1} matchId={this.props.matchId} />}
+        </Content>
+      </Container>
+    );
+  }
 }
 
 ScoreControl.defaultProps = {

@@ -25,9 +25,47 @@ const MATCH_QUERY = gql`
   }
 `;
 
+const SETS_SUBSCRIPTION = gql`
+  subscription SubscribeOnSets($matchId: ID!) {
+    Set(filter: { mutation_in: [CREATED, DELETED], node: { match: { id: $matchId } } }) {
+      node {
+        id
+        startTime
+        homeScore
+        awayScore
+        setNumber
+      }
+    }
+  }
+`;
+
 export default graphql(MATCH_QUERY, {
-  options: { variables: { matchId: 'cj5jb3dhib2o101599yo4827f' } },
-  props: ({ data }) => ({
+  options: props => ({
+    variables: { matchId: props.matchId },
+  }),
+  props: ({ ownProps, data }) => ({
+    subscribeToSetData: () =>
+      data.subscribeToMore({
+        document: SETS_SUBSCRIPTION,
+        variables: {
+          matchId: ownProps.matchId,
+        },
+        updateQuery: (prev, { subscriptionData }) => {
+          if (!subscriptionData.data) {
+            return prev;
+          }
+          const newSet = subscriptionData.data.Set.node;
+          const allSetsButNew = prev.Match.sets.filter(set => set.setNumber !== newSet.setNumber);
+
+          return {
+            ...prev,
+            Match: {
+              ...prev.Match,
+              sets: allSetsButNew.concat(newSet),
+            },
+          };
+        },
+      }),
     matchId: data.Match.id,
     homeTeam: data.Match.homeTeam,
     awayTeam: data.Match.awayTeam,

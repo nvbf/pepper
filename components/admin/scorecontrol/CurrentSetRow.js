@@ -55,11 +55,13 @@ const Icon = styled.img`
 `;
 
 type CurrentSetProps = {
-  id: number,
   setNumber: number,
   homeScore: number,
   awayScore: number,
-  mutate: Function,
+  decrementHomeTeam: Function,
+  incrementHomeTeam: Function,
+  decrementAwayTeam: Function,
+  incrementAwayTeam: Function,
 };
 
 function CurrentSetRow(props: CurrentSetProps) {
@@ -69,58 +71,24 @@ function CurrentSetRow(props: CurrentSetProps) {
         {props.setNumber}
       </SetNumber>
       <Score>
-        <Button
-          noBorder
-          onClick={() =>
-            props.mutate({
-              variables: {
-                setId: props.id,
-                homeScore: props.homeScore - 1,
-              },
-            })}
-        >
+        <Button noBorder onClick={props.decrementHomeTeam}>
           <Icon marginTop={2} src="/static/icon/chevron-down-white.svg" alt="chevron-down" />
         </Button>
         <ScoreNumber>
           {props.homeScore}
         </ScoreNumber>
-        <Button
-          onClick={() =>
-            props.mutate({
-              variables: {
-                setId: props.id,
-                homeScore: props.homeScore + 1,
-              },
-            })}
-        >
+        <Button onClick={props.incrementHomeTeam}>
           <Icon src="/static/icon/chevron-up-white.svg" alt="chevron-up" />
         </Button>
       </Score>
       <Score>
-        <Button
-          noBorder
-          onClick={() =>
-            props.mutate({
-              variables: {
-                setId: props.id,
-                awayScore: props.awayScore - 1,
-              },
-            })}
-        >
+        <Button noBorder onClick={props.decrementAwayTeam}>
           <Icon marginTop={2} src="/static/icon/chevron-down-white.svg" alt="chevron-down" />
         </Button>
         <ScoreNumber>
           {props.awayScore}
         </ScoreNumber>
-        <Button
-          onClick={() =>
-            props.mutate({
-              variables: {
-                setId: props.id,
-                awayScore: props.awayScore + 1,
-              },
-            })}
-        >
+        <Button onClick={props.incrementAwayTeam}>
           <Icon src="/static/icon/chevron-up-white.svg" alt="chevron-up" />
         </Button>
       </Score>
@@ -139,4 +107,43 @@ const updateSetMutation = gql`
   }
 `;
 
-export default graphql(updateSetMutation)(CurrentSetRow);
+export default graphql(updateSetMutation, {
+  props: ({ mutate, ownProps }) => {
+    const mutateAndUpdate = variables =>
+      mutate({
+        variables,
+        optimisticResponse: {
+          __typename: 'Mutation',
+          updateSet: {
+            __typename: 'Set',
+            id: variables.setId,
+            setNumber: ownProps.setNumber,
+            homeScore: variables.homeScore || ownProps.homeScore,
+            awayScore: variables.awayScore || ownProps.awayScore,
+          },
+        },
+      });
+    return {
+      decrementHomeTeam: () =>
+        mutateAndUpdate({
+          setId: ownProps.id,
+          homeScore: ownProps.homeScore - 1,
+        }),
+      incrementHomeTeam: () =>
+        mutateAndUpdate({
+          setId: ownProps.id,
+          homeScore: ownProps.homeScore + 1,
+        }),
+      decrementAwayTeam: () =>
+        mutateAndUpdate({
+          setId: ownProps.id,
+          awayScore: ownProps.awayScore - 1,
+        }),
+      incrementAwayTeam: () =>
+        mutateAndUpdate({
+          setId: ownProps.id,
+          awayScore: ownProps.awayScore + 1,
+        }),
+    };
+  },
+})(CurrentSetRow);

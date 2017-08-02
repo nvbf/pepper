@@ -13,6 +13,7 @@ const Container = styled.div`
 `;
 
 const Button = styled.button`
+  font-size: 18px;
   padding: 8px 16px;
   border-radius: 4px;
   color: ${color.white};
@@ -22,21 +23,10 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-export function NewSetButton(props: { setNumber: number, matchId: String, mutate: Function }) {
+export function NewSetButton(props: { startNewSet: Function }) {
   return (
     <Container>
-      <Button
-        onClick={() =>
-          props.mutate({
-            variables: {
-              matchId: props.matchId,
-              startTime: new Date().toISOString(),
-              setNumber: props.setNumber,
-            },
-          })}
-      >
-        Start New Set
-      </Button>
+      <Button onClick={props.startNewSet}>Start New Set</Button>
     </Container>
   );
 }
@@ -54,9 +44,19 @@ const startNewSetMutation = gql`
       setNumber
       homeScore
       awayScore
-      startTime
     }
   }
 `;
 
-export default graphql(startNewSetMutation)(NewSetButton);
+export default graphql(startNewSetMutation, {
+  props: ({ mutate, ownProps }) => ({
+    startNewSet: () =>
+      mutate({
+        variables: {
+          matchId: ownProps.matchId,
+          startTime: new Date().toISOString(),
+          setNumber: ownProps.setNumber,
+        },
+      }),
+  }),
+})(NewSetButton);

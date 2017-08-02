@@ -15,7 +15,7 @@ function AdminPage() {
   return (
     <div>
       <PlayerData />
-      <ScoreControl />
+      <ScoreControl matchId="cj5jb3dhib2o101599yo4827f" />
     </div>
   );
 }
