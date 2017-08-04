@@ -9,7 +9,9 @@ import CurrentSetRow from './CurrentSetRow';
 import NewSetButton from './NewSetButton';
 
 const Container = styled.div`
+  display: block;
   width: 400px;
+  overflow: auto;
   border-radius: 6px;
   background-color: green;
   background-color: ${color.white};
@@ -18,6 +20,7 @@ const Container = styled.div`
   flex-direction: column;
   overflow: hidden;
   position: relative;
+  height: 0%;
 `;
 
 const SetHeader = styled.div`
@@ -73,14 +76,15 @@ type ScoreControlProps = {
   homeTeam: Team,
   awayTeam: Team,
   sets: Array<VolleySet>,
+  subscribeToSetData: Function,
 };
 
 class ScoreControl extends React.Component {
-  props: ScoreControlProps;
-
   componentDidMount() {
     this.props.subscribeToSetData();
   }
+
+  props: ScoreControlProps;
 
   render() {
     if (this.props.loading || this.props.error) {
@@ -122,7 +126,7 @@ class ScoreControl extends React.Component {
                 />,
           )}
 
-          {setIsFinished &&
+          {(setIsFinished || currentSet.setNumber === 0) &&
             <NewSetButton setNumber={currentSet.setNumber + 1} matchId={this.props.matchId} />}
         </Content>
       </Container>

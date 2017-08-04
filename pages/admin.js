@@ -1,5 +1,5 @@
 import React from 'react';
-import { injectGlobal } from 'styled-components';
+import styled, { injectGlobal } from 'styled-components';
 import withData from '../libs/withData';
 import PlayerData from '../components/admin/playerdata/PlayerData';
 import ScoreControl from '../components/admin/scorecontrol/ApolloScoreControl';
@@ -8,15 +8,23 @@ import ScoreControl from '../components/admin/scorecontrol/ApolloScoreControl';
 injectGlobal`
   body {
     font-family: 'Source Sans Pro', sans-serif;
+    background-color: #fafafa;
   }
 `;
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
 function AdminPage() {
+  const matchId = 'cj5jb3dhib2o101599yo4827f';
   return (
-    <div>
-      <PlayerData />
-      <ScoreControl matchId="cj5jb3dhib2o101599yo4827f" />
-    </div>
+    <Container>
+      <ScoreControl matchId={matchId} />
+      <PlayerData team="homeTeam" matchId={matchId} />
+      <PlayerData team="awayTeam" matchId={matchId} />
+    </Container>
   );
 }
 

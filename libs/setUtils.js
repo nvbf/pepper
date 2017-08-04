@@ -31,7 +31,7 @@ function compareByNumber(setA, setB) {
 
 export function getLastSet(sets) {
   if (sets.length === 0) {
-    return { setNumber: 1, homeScore: 0, awayScore: 0 };
+    return { setNumber: 0, homeScore: 0, awayScore: 0 };
   }
   const setsSorted = sets.slice().sort(compareByNumber);
   return setsSorted[0];
