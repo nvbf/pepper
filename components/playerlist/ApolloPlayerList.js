@@ -15,6 +15,7 @@ const TEAM_QUERY = gql`
           number
           height
           position
+          image
         }
       }
       awayTeam {
@@ -27,6 +28,7 @@ const TEAM_QUERY = gql`
           number
           height
           position
+          image
         }
       }
     }
@@ -39,7 +41,8 @@ export default graphql(TEAM_QUERY, {
   }),
   props: ({ ownProps, data: { Match, loading } }) => ({
     isShowing: ownProps.isShowing,
-    team: Match[ownProps.team],
+    match: Match,
+    teamType: ownProps.team,
     loading,
   }),
 })(PlayerList);

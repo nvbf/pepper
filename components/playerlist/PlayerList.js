@@ -94,10 +94,10 @@ class PlayerList extends React.Component {
       return null;
     }
 
-    const selectedPlayer = this.props.team.players[Math.max(this.state.selectedIndex, 0)];
-    const prevPlayer = this.props.team.players[Math.max(0, this.state.selectedIndex - 1)];
+    const team = this.props.match[this.props.teamType];
 
-    const { team } = this.props;
+    const selectedPlayer = team.players[Math.max(this.state.selectedIndex, 0)];
+    const prevPlayer = team.players[Math.max(0, this.state.selectedIndex - 1)];
 
     return (
       <OuterContainer>
@@ -124,9 +124,15 @@ class PlayerList extends React.Component {
 PlayerList.propTypes = {
   loading: PropTypes.bool.isRequired,
   isShowing: PropTypes.bool.isRequired,
-  team: PropTypes.shape({
-    players: PropTypes.array,
+  match: PropTypes.shape({
+    homeTeam: PropTypes.shape({
+      players: PropTypes.array,
+    }).isRequired,
+    awayTeam: PropTypes.shape({
+      players: PropTypes.array,
+    }),
   }).isRequired,
+  teamType: PropTypes.oneOf(['homeTeam', 'awayTeam']).isRequired,
 };
 
 export default PlayerList;

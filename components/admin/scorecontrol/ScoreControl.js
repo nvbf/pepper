@@ -20,7 +20,6 @@ const Container = styled.div`
   flex-direction: column;
   overflow: hidden;
   position: relative;
-  height: 0%;
 `;
 
 const SetHeader = styled.div`

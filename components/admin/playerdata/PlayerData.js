@@ -8,7 +8,6 @@ import color from '../../../libs/color';
 import type { Team as TeamType } from '../../../types/types';
 
 const Container = styled.div`
-  margin-left: 16px;
   width: 400px;
   min-height: 350px;
   border-radius: 6px;
@@ -47,6 +46,7 @@ const PLAYERS_FROM_TEAM_QUERY = gql`
           number
           position
           active
+          image
         }
       }
       awayTeam {
@@ -60,6 +60,7 @@ const PLAYERS_FROM_TEAM_QUERY = gql`
           number
           position
           active
+          image
         }
       }
     }
