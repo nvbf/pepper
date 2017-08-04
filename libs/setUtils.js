@@ -1,4 +1,4 @@
-function isSetFinished(set) {
+export function isSetFinished(set) {
   return (
     Math.abs(set.homeScore - set.awayScore) >= 2 && (set.homeScore >= 25 || set.awayScore >= 25)
   );
@@ -25,16 +25,20 @@ export function getAwayTeamSets(sets) {
 }
 
 function compareByNumber(setA, setB) {
-  const res = setB.number - setA.number;
+  const res = setB.setNumber - setA.setNumber;
   return res;
 }
 
-function getLastSet(sets) {
+export function getLastSet(sets) {
   if (sets.length === 0) {
-    return { homeScore: 0, awayScore: 0 };
+    return { setNumber: 0, homeScore: 0, awayScore: 0 };
   }
   const setsSorted = sets.slice().sort(compareByNumber);
   return setsSorted[0];
+}
+
+export function getLastSetNumber(sets) {
+  return getLastSet(sets).setNumber;
 }
 
 export function getHomeTeamPoints(sets = []) {

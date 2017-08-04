@@ -8,13 +8,12 @@ import color from '../../../libs/color';
 import type { Team as TeamType } from '../../../types/types';
 
 const Container = styled.div`
-  margin: 16px;
   width: 400px;
   min-height: 350px;
-  background-color: blue;
   border-radius: 6px;
   background-color: ${color.white};
   box-shadow: 0px 2px 6px ${transparentize(0.8, color.seaBlue)};
+  height: 0%;
 `;
 
 export function PlayerData(props: { loading: boolean, error: boolean, team: TeamType }) {
@@ -33,27 +32,45 @@ export function PlayerData(props: { loading: boolean, error: boolean, team: Team
 }
 
 const PLAYERS_FROM_TEAM_QUERY = gql`
-  query TeamWithPlayers($slug: String!) {
-    Team(slug: $slug) {
+  query TeamWithPlayers($matchId: ID!) {
+    Match(id: $matchId) {
       id
-      name
-      shortName
-      logo
-      players(orderBy: position_ASC) {
+      homeTeam {
         id
         name
-        number
-        position
-        active
+        shortName
+        logo
+        players(orderBy: position_ASC) {
+          id
+          name
+          number
+          position
+          active
+          image
+        }
+      }
+      awayTeam {
+        id
+        name
+        shortName
+        logo
+        players(orderBy: position_ASC) {
+          id
+          name
+          number
+          position
+          active
+          image
+        }
       }
     }
   }
 `;
 
 export default graphql(PLAYERS_FROM_TEAM_QUERY, {
-  options: { variables: { slug: 'ntnui' } },
-  props: ({ data }) => ({
-    team: data.Team,
+  options: props => ({ variables: { matchId: props.matchId } }),
+  props: ({ ownProps, data }) => ({
+    team: data.Match[ownProps.team],
     loading: data.loading,
     error: data.error,
   }),

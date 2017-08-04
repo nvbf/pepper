@@ -53,6 +53,8 @@ const MainContainer = styled.div`
 
 type Overlay = {
   componentName: String,
+  position: String,
+  isShowing: boolean,
 };
 
 class ScreenPage extends React.Component {
@@ -75,7 +77,7 @@ class ScreenPage extends React.Component {
     const topLeftOverlay = this.props.overlays.find(o => o.position === 'TOP_LEFT');
     const topCenterOverlay = this.props.overlays.find(o => o.position === 'TOP_CENTER');
     const topRightOverlay = this.props.overlays.find(o => o.position === 'TOP_RIGHT');
-    const mainOverlay = this.props.overlays.find(o => o.position === 'MAIN');
+    const mainOverlay = this.props.overlays.find(o => o.position === 'MAIN' && o.isShowing);
 
     return (
       <ThemeProvider theme={theme(this.props.size)}>

@@ -1,31 +1,25 @@
 import { gql, graphql } from 'react-apollo';
-import Scoreboard from './Scoreboard';
-import {
-  getAwayTeamSets,
-  getHomeTeamSets,
-  getHomeTeamPoints,
-  getAwayTeamPoints,
-} from '../../libs/setUtils';
+import ScoreControl from './ScoreControl';
 
-const FETCH_SCORE_QUERY = gql`
-  query FetchScoreQuery($matchId: ID!) {
+const MATCH_QUERY = gql`
+  query GetMatch($matchId: ID!) {
     Match(id: $matchId) {
       id
       homeTeam {
         id
         shortName
-        color
+        logo
       }
       awayTeam {
         id
         shortName
-        color
+        logo
       }
       sets {
-        startTime
+        id
+        setNumber
         homeScore
         awayScore
-        setNumber
       }
     }
   }
@@ -33,7 +27,7 @@ const FETCH_SCORE_QUERY = gql`
 
 const SETS_SUBSCRIPTION = gql`
   subscription SubscribeOnSets($matchId: ID!) {
-    Set(filter: { mutation_in: [CREATED, UPDATED, DELETED], node: { match: { id: $matchId } } }) {
+    Set(filter: { mutation_in: [CREATED, DELETED], node: { match: { id: $matchId } } }) {
       node {
         id
         startTime
@@ -45,15 +39,13 @@ const SETS_SUBSCRIPTION = gql`
   }
 `;
 
-const config = {
+export default graphql(MATCH_QUERY, {
   options: props => ({
-    variables: {
-      matchId: props.matchId,
-    },
+    variables: { matchId: props.matchId },
   }),
-  props: ({ ownProps, data: { Match, subscribeToMore } }) => ({
+  props: ({ ownProps, data }) => ({
     subscribeToSetData: () =>
-      subscribeToMore({
+      data.subscribeToMore({
         document: SETS_SUBSCRIPTION,
         variables: {
           matchId: ownProps.matchId,
@@ -74,24 +66,11 @@ const config = {
           };
         },
       }),
-    isShowing: ownProps.isShowing,
-    showLogos: false,
-    showColors: true,
-    homeTeam: {
-      name: Match.homeTeam.shortName,
-      logo: '',
-      color: Match.homeTeam.color,
-      points: getHomeTeamPoints(Match.sets),
-      sets: getHomeTeamSets(Match.sets),
-    },
-    awayTeam: {
-      name: Match.awayTeam.shortName,
-      logo: '',
-      color: Match.homeTeam.color,
-      points: getAwayTeamPoints(Match.sets),
-      sets: getAwayTeamSets(Match.sets),
-    },
+    matchId: data.Match.id,
+    homeTeam: data.Match.homeTeam,
+    awayTeam: data.Match.awayTeam,
+    sets: data.Match.sets,
+    loading: data.loading,
+    error: data.error,
   }),
-};
-
-export default graphql(FETCH_SCORE_QUERY, config)(Scoreboard);
+})(ScoreControl);
