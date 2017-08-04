@@ -9,8 +9,10 @@ function ComponentFinder(props: { component: any, matchId: String }) {
   switch (props.component.componentName) {
     case 'Scoreboard':
       return <ApolloScoreboard {...props.component} matchId={props.matchId} />;
-    case 'PlayerList':
-      return <ApolloPlayerList {...props.component} matchId={props.matchId} />;
+    case 'HomeTeamPlayerList':
+      return <ApolloPlayerList {...props.component} matchId={props.matchId} team="homeTeam" />;
+    case 'AwayTeamPlayerList':
+      return <ApolloPlayerList {...props.component} matchId={props.matchId} team="awayTeam" />;
     default:
       return null;
   }

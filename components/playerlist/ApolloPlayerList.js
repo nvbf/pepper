@@ -2,27 +2,44 @@ import { gql, graphql } from 'react-apollo';
 import PlayerList from './PlayerList';
 
 const TEAM_QUERY = gql`
-  query GetTeam($teamSlug: String!) {
-    Team(slug: $teamSlug) {
-      name
-      logo
-      players {
+  query GetTeam($matchId: ID!) {
+    Match(id: $matchId) {
+      id
+      homeTeam {
+        id
         name
-        number
-        height
-        position
+        logo
+        players(filter: { active: true }) {
+          id
+          name
+          number
+          height
+          position
+        }
+      }
+      awayTeam {
+        id
+        name
+        logo
+        players(filter: { active: true }) {
+          id
+          name
+          number
+          height
+          position
+        }
       }
     }
   }
 `;
 
 export default graphql(TEAM_QUERY, {
-  options: {
-    variables: { teamSlug: 'tvn' },
-  },
-  props: ({ ownProps, data: { Team, loading } }) => ({
+  options: props => ({
+    variables: { matchId: props.matchId },
+  }),
+  props: ({ ownProps, data: { Match, loading } }) => ({
     isShowing: ownProps.isShowing,
-    team: Team,
+    team: Match[ownProps.team],
     loading,
   }),
 })(PlayerList);
