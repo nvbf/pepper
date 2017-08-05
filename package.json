@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next build && next start",
+    "start": "next build && next start -p $PORT",
     "eslint": "node ./node_modules/eslint/bin/eslint.js '{components,pages}/**/*.js' -c ./.eslintrc.json",
     "prettier": "prettier-eslint --single-quote --trailing-comma all '{components,pages}/**/*.js' --write",
     "flow": "./node_modules/flow-bin/cli.js",
