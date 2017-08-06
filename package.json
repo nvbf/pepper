@@ -46,5 +46,8 @@
     "prettier-eslint": "^6.4.2",
     "prettier-eslint-cli": "^4.1.1",
     "storybook-host": "3.0.0"
+  },
+  "engines": {
+    "node": "6.11.2"
   }
 }
