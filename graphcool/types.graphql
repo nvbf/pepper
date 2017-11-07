@@ -1,0 +1,299 @@
+# projectId: cj58jidn2nv6d01054i6bqzb7
+# version: 97
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum ScreenPosition {
+  TOP_LEFT
+  TOP_CENTER
+  TOP_RIGHT
+  MAIN
+}
+
+type File @model {
+  contentType: String!
+  createdAt: DateTime!
+  id: ID! @isUnique
+  name: String!
+  secret: String! @isUnique
+  size: Int!
+  updatedAt: DateTime!
+  url: String! @isUnique
+}
+
+type User @model {
+  createdAt: DateTime!
+  id: ID! @isUnique
+  updatedAt: DateTime!
+  email: String @isUnique
+  password: String
+}
+
+type BeachvolleyballPlayer @model {
+  id: ID! @isUnique
+  beachPosition: String!
+  club: Club @relation(name: "BeachvolleyballPlayerClub")
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  beachImage: String
+}
+
+type BeachVolleyballRankingStructure @model {
+  id: ID! @isUnique
+  place: Int!
+  type: BeachVolleyballTournamentType @relation(name: "BeachVolleyballRankingStructureBeachVolleyballTournamentType")
+  points: Int!
+}
+
+type Club @model {
+  id: ID! @isUnique
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  beachvolleyballPlayers: [BeachvolleyballPlayer!]! @relation(name: "BeachvolleyballPlayerClub")
+}
+
+type Player @model {
+  gender: Gender!
+  number: Int!
+  name: String!
+  position: String!
+  createdAt: DateTime!
+  id: ID! @isUnique
+  updatedAt: DateTime!
+  team: Team @relation(name: "TeamPlayer")
+  height: Int!
+  reach: Int!
+  blockReach: Int!
+  birthYear: Int!
+  active: Boolean!
+  image: String
+  cuppassistBeachId: String
+}
+
+type Team @model {
+  logo: String!
+  color: String!
+  name: String!
+  shortName: String!
+  createdAt: DateTime!
+  slug: String! @isUnique
+  id: ID! @isUnique
+  updatedAt: DateTime!
+  homeMatches: [Match!]! @relation(name: "HomeTeamMatch")
+  awayMatches: [Match!]! @relation(name: "AwayTeamMatch")
+  players: [Player!]! @relation(name: "TeamPlayer")
+  signups: [Signups!]! @relation(name: "SignupsTeams")
+  result: [BeachVolleyballTournamentsResults!]! @relation(name: "BeachVolleyballTournamentsResultsTeam")
+}
+
+type Signups @model {
+  id: ID! @isUnique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  team: Team! @relation(name: "SignupsTeams")
+  tournament: BeachVolleyballTournaments! @relation(name: "BeachVolleyballTournamentsSignups")
+}
+
+type Match @model {
+  firstReferee: Referee @relation(name: "FirstRefereeMatch")
+  secondReferee: Referee @relation(name: "SecondRefereeMatch")
+  createdAt: DateTime!
+  id: ID! @isUnique
+  sets: [Set!]! @relation(name: "MatchSet")
+  updatedAt: DateTime!
+  homeTeam: Team! @relation(name: "HomeTeamMatch")
+  awayTeam: Team! @relation(name: "AwayTeamMatch")
+  screens: [Screen!]! @relation(name: "MatchScreen")
+}
+
+type Set @model {
+  setNumber: Int!
+  startTime: DateTime!
+  endTime: DateTime
+  homeScore: Int!
+  awayScore: Int!
+  createdAt: DateTime!
+  id: ID! @isUnique
+  match: Match @relation(name: "MatchSet")
+  updatedAt: DateTime!
+}
+
+type Referee @model {
+  name: String!
+  matchesAsFirst: [Match!]! @relation(name: "FirstRefereeMatch")
+  matchesAsSecond: [Match!]! @relation(name: "SecondRefereeMatch")
+  createdAt: DateTime!
+  id: ID! @isUnique
+  updatedAt: DateTime!
+}
+
+type Overlay @model {
+  isShowing: Boolean!
+  position: ScreenPosition!
+  componentName: String!
+  screen: Screen @relation(name: "ScreenOverlay")
+  createdAt: DateTime!
+  id: ID! @isUnique
+  updatedAt: DateTime!
+}
+
+type Screen @model {
+  match: Match! @relation(name: "MatchScreen")
+  overlays: [Overlay!]! @relation(name: "ScreenOverlay")
+  createdAt: DateTime!
+  id: ID! @isUnique
+  updatedAt: DateTime!
+}
+
+type BeachVolleyballTournamentType @model {
+  id: ID! @isUnique
+  type: String! @isUnique
+  ageLevel: AgeLevel! @relation(name: "BeachVolleyballTournamentTypeAgeLevel")
+  beachVolleyballRankingStructures: [BeachVolleyballRankingStructure!]! @relation(name: "BeachVolleyballRankingStructureBeachVolleyballTournamentType")
+  beachVolleyballTournaments: [BeachVolleyballTournaments!]! @relation(name: "BeachVolleyballTournamentsBeachVolleyballTournamentType")
+}
+
+type AgeLevel @model {
+  id: ID! @isUnique
+  aldersklasse: String
+  beachVolleyballTournamentTypes: [BeachVolleyballTournamentType!]! @relation(name: "BeachVolleyballTournamentTypeAgeLevel")
+}
+
+type BeachVolleyballTournaments @model {
+  id: ID! @isUnique
+  name: String!
+  startdate: DateTime!
+  enddate: DateTime!
+  cupassistTournamentId: String
+  signups: [Signups!]! @relation(name: "BeachVolleyballTournamentsSignups")
+  type: BeachVolleyballTournamentType! @relation(name: "BeachVolleyballTournamentsBeachVolleyballTournamentType")
+  results: [BeachVolleyballTournamentsResults!]! @relation(name: "BeachVolleyballTournamentsBeachVolleyballTournamentsResults")
+  cupassistBeachName: String
+}
+
+type BeachVolleyballTournamentsResults @model {
+  id: ID! @isUnique
+  tournament: BeachVolleyballTournaments! @relation(name: "BeachVolleyballTournamentsBeachVolleyballTournamentsResults")
+  place: Int!
+  team: Team! @relation(name: "BeachVolleyballTournamentsResultsTeam")
+}
+
+type ServerInfoPayload @model {
+  id: ID! @isUnique
+  shirt: Int
+  position: Int
+  playerId: Int
+  homeTeamPlayer: Boolean
+  libero: Boolean
+  rallyWonByHomeTeam: Boolean
+}
+
+#### DataVolley API
+
+#type FullMatchInfo @model {
+#    id: ID! @isUnique    # required system field
+#    createdAt: DateTime! # optional system field
+#    updatedAt: DateTime! # optional system field
+#    MatchID: Int #MID
+#    MatchStatus: Int # ST (0 = Not yet started, 1 = Running, 2 = Game Over)
+#    MatchDatetime: String # MDT
+#    HomeTeamID: Int #HID
+#    GuestTeamID: Int #GID
+#    HomeTeamName: String #HTN 
+#    GuestTeamName: String , #GTN
+#    SetWonHomeTeam: Int # WSH
+#    SetWonGuestTeam: Int #WSG
+#    Set1scoreHomeTeam: Int  # S1H (integer, optional):
+#    Set1scoreGuestTeam: Int  # S1G (integer, optional):
+#    Set2scoreHomeTeam: Int  # S2H (integer, optional):
+#    Set2scoreGuestTeam: Int  # S2G (integer, optional):
+#    Set3scoreHomeTeam: Int  # S3H (integer, optional):
+#    Set3scoreGuestTeam: Int  # S3G (integer, optional):
+#    Set4scoreHomeTeam: Int  # S4H (integer, optional):
+#    Set4scoreGuestTeam: Int  # S4G (integer, optional):
+#    Set5scoreHomeTeam: Int  # S5H (integer, optional):
+#    Set5scoreGuestTeam: Int  # S5G (integer, optional):
+#    GoldenSetscoreHomeTeam: Int  # GSH (integer, optional):
+#    GoldenSetscoreGuestTeam: Int  # GSG (integer, optional):
+#    GoldenSetPlayed: Bool # GSP (boolean, optional):
+#    Set1Duration: Int  # TS1 (integer, optional):
+#    Set2Duration: Int  # TS2 (integer, optional):
+#    Set3Duration: Int  # TS3 (integer, optional):
+#    Set4Duration: Int  # TS4 (integer, optional):
+#    Set5Duration: Int  # TS5 (integer, optional):
+#    GoldenSetDuration: Int  # TGS (integer, optional):
+#    TimeOutSet1HomeTeam: Int #ToS1H (integer, optional): 
+#    TimeOutSet1GuestTeam: Int #ToS1G (integer, optional): 
+#    TimeOutSet2HomeTeam: Int #ToS2H (integer, optional): 
+#    TimeOutSet2GuestTeam: Int #ToS2G (integer, optional): 
+#    TimeOutSet3HomeTeam: Int #ToS3H (integer, optional): 
+#    TimeOutSet3GuestTeam: Int #ToS3G (integer, optional): 
+#    TimeOutSet4HomeTeam: Int #ToS4H (integer, optional): 
+#    TimeOutSet4GuestTeam: Int #ToS4G (integer, optional): 
+#    TimeOutSet5HomeTeam: Int #ToS5H (integer, optional): 
+#    TimeOutSet5GuestTeam: Int #ToS5G (integer, optional): 
+#    TimeOutGoldenSetHomeTeam: Int #ToGSH (integer, optional): 
+#    TimeOutGoldenSetGuestTeam: Int #ToGSG (integer, optional): 
+#    CurrentSet: Int #CSet (integer, optional, read only): 
+#    CurrentSetScoreHomeTeam: Int #CHP (integer, optional, read only): 
+#    CurrentSetScoreGuestTeam: Int #CGP (integer, optional, read only): 
+#    ListOfPlayerStatisticsHomeTeam [PlayerStatistics!]  #PStatsH (Array[PlayerStatistics], optional): 
+#    ListOfPlayerStatisticsGuestTeam [PlayerStatistics!]  #PStatsG (Array[PlayerStatistics], optional): 
+#    CurrentRotation: WebApiLiveLineUp #CR (, optional): 
+#    StartingSix: WebApiLiveLineUp #SSix (, optional):     
+#}
+#
+#type PlayerStatistics @model {
+#    id: ID! @isUnique    # required system field
+#    createdAt: DateTime! # optional system field
+#    updatedAt: DateTime! # optional system field
+#    NickName: String #SHN (string, optional),
+#    GoldenSet: Bool #GS (boolean, optional):
+#    SetNumber: Int #SN (integer, optional):
+#    TeamID: Int #TID (integer, optional):
+#    PlayerID: Int #PID (integer, optional):
+#    Captain: Bool #K (boolean, optional):
+#    Libero: Bool #L (boolean, optional):
+#    ShirtNumber: Int #N (integer, optional):
+#    PlayerSurname: String #SR (string, optional):
+#    PlayerName: String #NM (string, optional):
+#    PointWhenServing: Int #PS (integer, optional):
+#    SideOut: Int #SOut (integer, optional):
+#    ServeAce: Int #SWin (integer, optional):
+#    ServeError: Int #SErr (integer, optional):
+#    ServeTotal: Int #STot (integer, optional):
+#    PerfectRecpetion: Int #RWin (integer, optional):
+#    ReceptionError: Int #RErr (integer, optional):
+#    ReceptionTotal: Int #RTot (integer, optional):
+#    SpikePoint: Int #SpWin (integer, optional):
+#    SpikeError: Int #SpErr (integer, optional):
+#    SpikeTotal: Int #SpTot (integer, optional):
+#    BlockWinning: Int #BWin (integer, optional):
+#}
+#
+#type WebApiLiveLineUp @model {
+#    id: ID! @isUnique    # required system field
+#    createdAt: DateTime! # optional system field
+#    updatedAt: DateTime! # optional system field
+#    RallyWonByHomeTeam: Bool #WinHG (boolean, optional): 
+#    LiberoPositionHomeTeam: Int #HLP (integer, optional): 
+#    LiberoPositionGuestTeam: Int  #GLP (integer, optional): 
+#    ListOfLineUpHomeTeam: [LineUp!] #LUPH (Array[LineUp], optional): 
+#    ListOfLineUpGuestTeam: [LineUp!] #LUPG (Array[LineUp], optional): 
+#}
+#
+#type LineUp @model {
+#    id: ID! @isUnique    # required system field
+#    createdAt: DateTime! # optional system field
+#    updatedAt: DateTime! # optional system field
+#    ShirtNumber: Int #PN (integer, optional):
+#    Position: Int #PZ (integer, optional):
+#    PlayerID: Int #PID (integer, optional):
+#    HomeTeamPlayer: Bool #HG (boolean, optional):
+#    Libero: Bool #L (boolean, optional):
+#    RallyWonByHomeTeam: Bool #WHG (boolean, optional):
+#}

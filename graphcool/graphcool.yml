@@ -1,0 +1,128 @@
+# Welcome to Graphcool!
+#
+# This file is the main config file for your Graphcool Service.
+# It's very minimal at this point and uses default values.
+# We've included a hello world function here.
+# Just run `graphcool deploy` to have the first running Graphcool Service.
+#
+# Check out some examples:
+#    https://github.com/graphcool/graphcool/tree/master/examples
+#
+# Here are the reference docs of this definition format:
+# https://docs-next.graph.cool/reference/service-definition/graphcool.yml-foatho8aip
+#
+# Happy Coding!
+
+
+types: ./types.graphql
+functions:
+  getPlayerInfoToServe:
+    handler:
+      code: functions/getPlayerInfoToServe/getPlayerInfoToServe.js
+    type: resolver
+    schema: functions/getPlayerInfoToServe/types.graphql
+  getLineup:
+    handler:
+      code: functions/getLineup/getLineup.js
+    type: resolver
+    schema: functions/getLineup/types.graphql
+  getFullInfoOnMatch:
+    handler:
+      code: functions/getFullInfoOnMatch/getFullInfoOnMatch.js
+    type: resolver
+    schema: functions/getFullInfoOnMatch/types.graphql       
+permissions:
+- operation: AgeLevel.read
+- operation: AgeLevel.create
+- operation: AgeLevel.update
+- operation: AgeLevel.delete
+- operation: BeachvolleyballPlayer.read
+- operation: BeachvolleyballPlayer.create
+- operation: BeachvolleyballPlayer.update
+- operation: BeachvolleyballPlayer.delete
+- operation: BeachVolleyballRankingStructure.read
+- operation: BeachVolleyballRankingStructure.create
+- operation: BeachVolleyballRankingStructure.update
+- operation: BeachVolleyballRankingStructure.delete
+- operation: BeachVolleyballTournaments.read
+- operation: BeachVolleyballTournaments.create
+- operation: BeachVolleyballTournaments.update
+- operation: BeachVolleyballTournaments.delete
+- operation: BeachVolleyballTournamentsResults.read
+- operation: BeachVolleyballTournamentsResults.create
+- operation: BeachVolleyballTournamentsResults.update
+- operation: BeachVolleyballTournamentsResults.delete
+- operation: BeachVolleyballTournamentType.read
+- operation: BeachVolleyballTournamentType.create
+- operation: BeachVolleyballTournamentType.update
+- operation: BeachVolleyballTournamentType.delete
+- operation: Club.read
+- operation: Club.create
+- operation: Club.update
+- operation: Club.delete
+- operation: Match.read
+- operation: Match.create
+- operation: Match.update
+- operation: Match.delete
+- operation: Overlay.read
+- operation: Overlay.create
+- operation: Overlay.update
+- operation: Overlay.delete
+- operation: Player.read
+- operation: Player.update
+- operation: Player.delete
+- operation: Player.create
+- operation: Referee.read
+- operation: Referee.create
+- operation: Referee.update
+- operation: Referee.delete
+- operation: Screen.read
+- operation: Screen.create
+- operation: Screen.update
+- operation: Screen.delete
+- operation: ServerInfoPayload.read
+- operation: ServerInfoPayload.create
+- operation: ServerInfoPayload.update
+- operation: ServerInfoPayload.delete
+- operation: Set.read
+- operation: Set.create
+- operation: Set.update
+- operation: Set.delete
+- operation: Signups.read
+- operation: Signups.create
+- operation: Signups.update
+- operation: Signups.delete
+- operation: Team.read
+- operation: Team.create
+- operation: Team.update
+- operation: Team.delete
+- operation: User.create
+  authenticated: true
+- operation: User.update
+  authenticated: true
+- operation: User.delete
+  authenticated: true
+- operation: User.read
+  authenticated: true
+  fields:
+  - id
+  - createdAt
+  - updatedAt
+  - email
+- operation: AwayTeamMatch.*
+- operation: BeachvolleyballPlayerClub.*
+- operation: BeachVolleyballRankingStructureBeachVolleyballTournamentType.*
+- operation: BeachVolleyballTournamentsBeachVolleyballTournamentsResults.*
+- operation: BeachVolleyballTournamentsBeachVolleyballTournamentType.*
+- operation: BeachVolleyballTournamentsResultsTeam.*
+- operation: BeachVolleyballTournamentsSignups.*
+- operation: BeachVolleyballTournamentTypeAgeLevel.*
+- operation: FirstRefereeMatch.*
+- operation: HomeTeamMatch.*
+- operation: MatchScreen.*
+- operation: MatchSet.*
+- operation: ScreenOverlay.*
+- operation: SecondRefereeMatch.*
+- operation: SignupsTeams.*
+- operation: TeamPlayer.*
+rootTokens: []
