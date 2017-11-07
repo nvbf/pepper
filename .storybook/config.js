@@ -13,6 +13,7 @@ function loadStories() {
   require('../stories/admin/playerDataStory');
   require('../stories/admin/playerDataEditStory');
   require('../stories/admin/scoreControlStory');
+  require('../stories/fullMatchInfoStory');
 }
 
 configure(loadStories, module);
