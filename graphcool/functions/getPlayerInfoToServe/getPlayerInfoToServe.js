@@ -1,10 +1,10 @@
 'use-latest';
 
-const AUTHENTICATION = process.env.AUTHENTICATION;
-const API_URL = 'https://dataprojectserviceswebapilive.azurewebsites.net/api/v1/NVBF/CurrentRotation/FedNumber/';
-
-
 const fetch = require("isomorphic-fetch");
+
+const AUTHENTICATION = process.env.AUTHENTICATION;
+
+const API_URL = 'https://dataprojectserviceswebapilive.azurewebsites.net/api/v1/NVBF/CurrentRotation/FedNumber/';
 
 function fetchPlayertoServe(event) {
   const matchId = event.data.matchId;

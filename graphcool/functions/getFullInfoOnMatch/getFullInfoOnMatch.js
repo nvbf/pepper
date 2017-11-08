@@ -1,19 +1,17 @@
 'use-latest';
 
-const AUTHENTICATION = process.env.AUTHENTICATION;
+const fetch = require('isomorphic-fetch');
+const AUTHENTICATION = process.env['AUTHENTICATION'];
 
 function getUrl(matchNr) {
     return `https://dataprojectserviceswebapilive.azurewebsites.net/api/v1/NVBF/MatchLiveFullInfo/FedNumber/${matchNr}/`
 }
 
-const fetch = require('isomorphic-fetch');
-
-function getFullInfoOnMatch(event) {
+async function getFullInfoOnMatch(event) {
+  //console.log('getFullInfoOnMatch Starts!');
   const matchId = event.data.matchId;
 
-
-  const url = getUrl(matchId)
-  
+  const url = getUrl(matchId);
   return fetch(url, getFetchConfig())
     .then(checkStatus)
     .then(res => res.json())
@@ -21,19 +19,20 @@ function getFullInfoOnMatch(event) {
       .then(wrapInData)
   	.catch((err) => {    	
     	return { data: { error: err } }
-  	})
+    })
+
 }
 
 function wrapInData(data) {
-    return { data }
+  return { data };
 }
 
 function handleResponse(elem) {
     if(!elem) return {}
 
     const response = mapFullMatchInfo(elem)
-    console.log('response')
-    console.log(response)
+    //console.log('response')
+    //console.log(response)
   	return response
   }
   
@@ -47,7 +46,7 @@ function mapFullMatchInfo(info) {
     addKeyAndValue(data, info, "GID", "guestTeamID")
     addKeyAndValue(data, info, "HTN", "homeTeamName")
     addKeyAndValue(data, info, "GTN", "guestTeamName")
-    addKeyAndValue(data, info, " WSH", "setWonHomeTeam")
+    addKeyAndValue(data, info, "WSH", "setWonHomeTeam")
     addKeyAndValue(data, info, "WSG", "setWonGuestTeam")
     addKeyAndValue(data, info, "S1H", "set1scoreHomeTeam")
     addKeyAndValue(data, info, "S1G", "set1scoreGuestTeam")
@@ -144,8 +143,8 @@ function getLineupList(linupList) {
 }
 
 function maptoPlayerPosition(lineup) {
-  console.log('lineup')
-  console.log(lineup)
+  //console.log('lineup')
+  //console.log(lineup)
   const data = {}
   addKeyAndValue(data, lineup, "PN", "shirt")
   addKeyAndValue(data, lineup, "PZ", "position")
@@ -182,5 +181,6 @@ function checkStatus(response) {
     throw error
   } 
 }
+
 
 module.exports = getFullInfoOnMatch
