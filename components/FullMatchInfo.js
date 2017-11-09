@@ -68,13 +68,61 @@ const config = {
     };
   },
   props: (info) => {
-    const { ownProps, data: { getFullMatchInfo: { matchID, matchStatus }, loading, error } } = info;
+    const { 
+      ownProps,
+      data: {
+        getFullMatchInfo: {
+          matchID,
+          matchStatus,
+          homeTeamName,
+          guestTeamName,
+          setWonHomeTeam,
+          setWonGuestTeam,
+          set1scoreHomeTeam,
+          set1scoreGuestTeam,
+          set2scoreHomeTeam,
+          set2scoreGuestTeam,
+          set3scoreHomeTeam,
+          set3scoreGuestTeam,
+          set4scoreHomeTeam,
+          set4scoreGuestTeam,
+          set5scoreHomeTeam,
+          set5scoreGuestTeam,
+          currentSet,
+          currentSetScoreHomeTeam,
+          currentSetScoreGuestTeam,          
+          currentRotation,
+          startingSix,
+        },
+        loading,
+        error,
+      }
+    } = info;
     console.log(info)
     return ({
       loading,
       matchID,
       matchStatus,
       error,
+      homeTeamName,
+      guestTeamName,
+      setWonHomeTeam,
+      setWonGuestTeam,
+      set1scoreHomeTeam,
+      set1scoreGuestTeam,
+      set2scoreHomeTeam,
+      set2scoreGuestTeam,
+      set3scoreHomeTeam,
+      set3scoreGuestTeam,
+      set4scoreHomeTeam,
+      set4scoreGuestTeam,
+      set5scoreHomeTeam,
+      set5scoreGuestTeam,
+      currentSet,
+      currentSetScoreHomeTeam,
+      currentSetScoreGuestTeam,      
+      currentRotation: JSON.stringify(startingSix),
+      startingSix: JSON.stringify(startingSix), 
     });
   },
 };
