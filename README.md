@@ -19,5 +19,5 @@ You will then find storybook on localhost:6006
 
 # Paths
 /  - Shows and example overlay screen
-/admin
-
+/admin/match/<datavolleyid>
+/match/<datavolleyid>
