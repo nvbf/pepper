@@ -1,5 +1,6 @@
 import { ApolloClient, createNetworkInterface } from 'react-apollo';
 import { SubscriptionClient, addGraphQLSubscriptions } from 'subscriptions-transport-ws';
+import { GraphQLClient } from 'graphql-request'
 import fetch from 'isomorphic-fetch';
 
 let apolloClient = null;
@@ -43,4 +44,18 @@ export default function initApollo(initialState) {
   }
 
   return apolloClient;
+}
+
+export function simpleServerClient() {
+
+  if (!process.env.AUTH) {
+    throw new Error('process.env.AUTH needs to be set');
+  }
+
+  const client = new GraphQLClient('https://api.graph.cool/simple/v1/pepper', {
+    headers: {
+      Authorization: process.env.AUTH,
+    },
+  });
+  return client;
 }

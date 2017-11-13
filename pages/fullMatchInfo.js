@@ -23,7 +23,7 @@ const ControlContainer = styled.div`
 `;
 
 function FullMatchInfoPage() {
-  const matchId = '1111';
+  const matchId = 1111;
   return (
     <FullMatchInfo matchId={matchId} />
   );

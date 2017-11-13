@@ -4,72 +4,78 @@ import { gql, graphql } from 'react-apollo';
 const FETCH_FULL_MATCH_INFO_QUERY = gql`
   query getFullMatchInfo($matchId: Int!) {
     getFullMatchInfo(matchId: $matchId) {
-        matchID
-        matchStatus
-        matchDatetime
-        homeTeamID
-        guestTeamID
-        homeTeamName
-        guestTeamName
-        setWonHomeTeam
-        setWonGuestTeam
-        set1scoreHomeTeam
-        set1scoreGuestTeam
-        set2scoreHomeTeam
-        set2scoreGuestTeam
-        set3scoreHomeTeam
-        set3scoreGuestTeam
-        set4scoreHomeTeam
-        set4scoreGuestTeam
-        set5scoreHomeTeam
-        set5scoreGuestTeam
-        goldenSetscoreHomeTeam
-        goldenSetscoreGuestTeam
-        goldenSetPlayed
-        set1Duration
-        set2Duration
-        set3Duration
-        set4Duration
-        set5Duration
-        goldenSetDuration
-        timeOutSet1HomeTeam
-        timeOutSet1GuestTeam
-        timeOutSet2HomeTeam
-        timeOutSet2GuestTeam
-        timeOutSet3HomeTeam
-        timeOutSet3GuestTeam
-        timeOutSet4HomeTeam
-        timeOutSet4GuestTeam
-        timeOutSet5HomeTeam
-        timeOutSet5GuestTeam
-        timeOutGoldenSetHomeTeam
-        timeOutGoldenSetGuestTeam
-        currentSet
-        currentSetScoreHomeTeam
-        currentSetScoreGuestTeam
-        listOfPlayerStatisticsHomeTeam
-        listOfPlayerStatisticsGuestTeam
-        currentRotation
-        startingSix
+      matchID
+      matchStatus
+      matchDatetime
+      homeTeamID
+      guestTeamID
+      homeTeamName
+      guestTeamName
+      setWonHomeTeam
+      setWonGuestTeam
+      set1scoreHomeTeam
+      set1scoreGuestTeam
+      set2scoreHomeTeam
+      set2scoreGuestTeam
+      set3scoreHomeTeam
+      set3scoreGuestTeam
+      set4scoreHomeTeam
+      set4scoreGuestTeam
+      set5scoreHomeTeam
+      set5scoreGuestTeam
+      goldenSetscoreHomeTeam
+      goldenSetscoreGuestTeam
+      goldenSetPlayed
+      set1Duration
+      set2Duration
+      set3Duration
+      set4Duration
+      set5Duration
+      goldenSetDuration
+      timeOutSet1HomeTeam
+      timeOutSet1GuestTeam
+      timeOutSet2HomeTeam
+      timeOutSet2GuestTeam
+      timeOutSet3HomeTeam
+      timeOutSet3GuestTeam
+      timeOutSet4HomeTeam
+      timeOutSet4GuestTeam
+      timeOutSet5HomeTeam
+      timeOutSet5GuestTeam
+      timeOutGoldenSetHomeTeam
+      timeOutGoldenSetGuestTeam
+      currentSet
+      currentSetScoreHomeTeam
+      currentSetScoreGuestTeam
+      listOfPlayerStatisticsHomeTeam
+      listOfPlayerStatisticsGuestTeam
+      currentRotation
+      startingSix
     }
   }
 `;
 
-const FullMatchInfo = props =>  (
+const FullMatchInfo = props => (
   <ul>
-    {Object.keys(props).map(prop => <li key={prop}>{prop}: {props[prop]}</li>)}
+    {Object.keys(props).map(prop => (
+      <li key={prop}>
+        {prop}: {props[prop]}
+      </li>
+    ))}
   </ul>
 );
 
 const config = {
-  options: props => {
+  options: (props) => {
+    console.log(props.matchId);
     return {
-      variables: { matchId: 1111 },
+      variables: {
+        matchId: props.matchId,
+      },
     };
   },
   props: (info) => {
-    const { 
-      ownProps,
+    const {
       data: {
         getFullMatchInfo: {
           matchID,
@@ -90,20 +96,25 @@ const config = {
           set5scoreGuestTeam,
           currentSet,
           currentSetScoreHomeTeam,
-          currentSetScoreGuestTeam,          
+          currentSetScoreGuestTeam,
           currentRotation,
           startingSix,
-        },
+        } = {},
         loading,
         error,
-      }
+      },
     } = info;
-    console.log(info)
-    return ({
+    if (loading) {
+      return { loading };
+    }
+    if (error) {
+      return { error };
+    }
+    return {
       loading,
+      error,
       matchID,
       matchStatus,
-      error,
       homeTeamName,
       guestTeamName,
       setWonHomeTeam,
@@ -120,10 +131,10 @@ const config = {
       set5scoreGuestTeam,
       currentSet,
       currentSetScoreHomeTeam,
-      currentSetScoreGuestTeam,      
-      currentRotation: JSON.stringify(startingSix),
-      startingSix: JSON.stringify(startingSix), 
-    });
+      currentSetScoreGuestTeam,
+      currentRotation: JSON.stringify(currentRotation),
+      startingSix: JSON.stringify(startingSix),
+    };
   },
 };
 

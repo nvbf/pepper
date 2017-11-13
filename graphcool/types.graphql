@@ -83,6 +83,7 @@ type Team @model {
   slug: String! @isUnique
   id: ID! @isUnique
   updatedAt: DateTime!
+  dataVolleyId:  Int!
   homeMatches: [Match!]! @relation(name: "HomeTeamMatch")
   awayMatches: [Match!]! @relation(name: "AwayTeamMatch")
   players: [Player!]! @relation(name: "TeamPlayer")

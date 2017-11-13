@@ -14,6 +14,7 @@ function loadStories() {
   require('../stories/admin/playerDataEditStory');
   require('../stories/admin/scoreControlStory');
   require('../stories/fullMatchInfoStory');
+  require('../stories/dataVolleyStory');
 }
 
 configure(loadStories, module);

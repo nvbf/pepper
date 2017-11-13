@@ -10,6 +10,7 @@ export type Player = {
 export type Team = {
   name: string,
   logo: string,
+  dataVolleyId: string,
   players: Array<Player>,
 };
 
