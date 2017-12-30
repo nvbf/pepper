@@ -16,43 +16,73 @@ const Button = styled.button`
   box-shadow: 0px 2px 6px ${transparentize(0.7, color.seaBlue)};
 `;
 
-function ShowButton(props: { isShowing: boolean, text: String, toggleShowing: Function }) {
+function ShowButton(props) {
+  console.log(props);
   return (
-    <Button onClick={props.toggleShowing} active={props.data.Overlay.isShowing}>
+    <Button
+      onClick={props.data.Overlay.isShowing ? props.hideOverlay : props.showOverlay}
+      active={props.data.Overlay.isShowing}
+    >
       {props.data.Overlay.isShowing ? 'Hide' : 'Show'} {props.text}
     </Button>
   );
 }
 
-const TOGGLE_SHOWING = gql`
-  mutation ToggleShowing($overlayId: ID!, $isShowing: Boolean) {
-    updateOverlay(id: $overlayId, isShowing: $isShowing) {
-      id
+const SHOW_OVERLAY = gql`
+  mutation showOverlay($id: ID!) {
+    showOverlay(id: $id) {
       isShowing
+      id
+    }
+  }
+`;
+
+const HIDE_OVERLAY = gql`
+  mutation hideOverla($id: ID!) {
+    hideOverlay(id: $id) {
+      isShowing
+      id
     }
   }
 `;
 
 const SHOWING_QUERY = gql`
-  query IsShowing($overlayId: ID!) {
-    Overlay(id: $overlayId) {
+  query IsShowing($id: ID!) {
+    Overlay(id: $id) {
       id
       isShowing
     }
   }
 `;
 
-const mutationOptions = {
+const showOverlayOptions = {
   props: ({ mutate, ownProps }) => ({
-    toggleShowing: () =>
+    showOverlay: () =>
       mutate({
-        variables: { isShowing: !ownProps.data.Overlay.isShowing, overlayId: ownProps.overlayId },
+        variables: { id: ownProps.id },
         optimisticResponse: {
           __typename: 'Mutation',
-          updateOverlay: {
+          showOverlay: {
             __typename: 'Overlay',
-            id: ownProps.overlayId,
-            isShowing: !ownProps.data.Overlay.isShowing,
+            id: ownProps.id,
+            isShowing: true,
+          },
+        },
+      }),
+  }),
+};
+
+const hideOverlayOptions = {
+  props: ({ mutate, ownProps }) => ({
+    hideOverlay: () =>
+      mutate({
+        variables: { id: ownProps.id },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          hideOverlay: {
+            __typename: 'Overlay',
+            id: ownProps.id,
+            isShowing: false,
           },
         },
       }),
@@ -60,10 +90,11 @@ const mutationOptions = {
 };
 
 const queryOptions = {
-  options: props => ({ variables: { overlayId: props.overlayId } }),
+  options: props => ({ variables: { id: props.id } }),
 };
 
 export default compose(
   graphql(SHOWING_QUERY, queryOptions),
-  graphql(TOGGLE_SHOWING, mutationOptions),
+  graphql(HIDE_OVERLAY, hideOverlayOptions),
+  graphql(SHOW_OVERLAY, showOverlayOptions),
 )(ShowButton);

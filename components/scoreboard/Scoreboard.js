@@ -114,12 +114,15 @@ export type ScoreboardProps = {
 
 export default class Scoreboard extends React.Component {
   componentDidMount() {
-    this.props.subscribeToSetData();
+    /* this.props.subscribeToSetData(); */
   }
 
   props: ScoreboardProps;
 
   render() {
+    if (this.props.loading) {
+      return null;
+    }
     return (
       <OpacityContainer isShowing={this.props.isShowing}>
         <Container>
@@ -142,20 +145,12 @@ export default class Scoreboard extends React.Component {
             />
           </TeamRowContainer>
           <SetsContainer>
-            <SetScore>
-              {this.props.homeTeam.sets}
-            </SetScore>
-            <SetScore>
-              {this.props.awayTeam.sets}
-            </SetScore>
+            <SetScore>{this.props.homeTeam.sets}</SetScore>
+            <SetScore>{this.props.awayTeam.sets}</SetScore>
           </SetsContainer>
           <PointsContainer>
-            <Points>
-              {this.props.homeTeam.points}
-            </Points>
-            <Points>
-              {this.props.awayTeam.points}
-            </Points>
+            <Points>{this.props.homeTeam.points}</Points>
+            <Points>{this.props.awayTeam.points}</Points>
           </PointsContainer>
           <Dangle />
         </Container>

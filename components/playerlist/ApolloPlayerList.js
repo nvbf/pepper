@@ -1,48 +1,58 @@
 import { gql, graphql } from 'react-apollo';
-import PlayerList from './PlayerList';
+import PlayerList from './NewPlayerList';
 
-const TEAM_QUERY = gql`
-  query GetTeam($matchId: ID!) {
-    Match(id: $matchId) {
-      id
+const ROSTER_QUERY = gql`
+  query GetRoster($matchId: String!) {
+    liveData(matchId: $matchId) {
       homeTeam {
-        id
         name
         logo
-        players(filter: { active: true }) {
+      }
+      guestTeam {
+        name
+        logo
+      }
+    }
+    roster(matchId: $matchId) {
+      homeTeamPlayers {
+        isCaptain
+        isLibero
+        player {
           id
-          name
           number
-          height
           position
-          image
+          firstName
+          lastName
+          birthDate
         }
       }
-      awayTeam {
-        id
-        name
-        logo
-        players(filter: { active: true }) {
+      guestTeamPlayers {
+        isCaptain
+        isLibero
+        player {
           id
-          name
           number
-          height
           position
-          image
+          firstName
+          lastName
+          birthDate
         }
       }
     }
   }
 `;
 
-export default graphql(TEAM_QUERY, {
+export default graphql(ROSTER_QUERY, {
   options: props => ({
     variables: { matchId: props.matchId },
   }),
-  props: ({ ownProps, data: { Match, loading } }) => ({
+  props: ({ ownProps, data }) => ({
     isShowing: ownProps.isShowing,
-    match: Match,
-    teamType: ownProps.team,
-    loading,
+    players:
+      data.roster && ownProps.showHomeTeam
+        ? data.roster.homeTeamPlayers
+        : data.roster.guestTeamPlayers,
+    team: data.liveData && ownProps.showHomeTeam ? data.liveData.homeTeam : data.liveData.guestTeam,
+    loading: data.loading,
   }),
 })(PlayerList);
