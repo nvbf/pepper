@@ -11,7 +11,6 @@ class OverlayEngine extends React.Component {
   componentDidMount() {
     this.props.subscribeToOverlays();
   }
-
   render() {
     if (this.props.loading) {
       return <div>loading</div>;
