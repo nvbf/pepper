@@ -1,0 +1,12 @@
+type ServerInfoPayload2 {
+  shirt: Int
+  position: Int
+  playerId: Int
+  homeTeamPlayer: Boolean
+  libero: Boolean
+  rallyWonByHomeTeam: Boolean
+}
+
+extend type Query {
+   getPlayerInfoToServe(matchId: Int!): ServerInfoPayload2
+}

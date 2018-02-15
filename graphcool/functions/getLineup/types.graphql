@@ -1,0 +1,20 @@
+#type PlayerPotition {
+#  shirt: Int
+#  position: Int
+#  playerId: Int
+#  homeTeamPlayer: Boolean
+#  libero: Boolean
+#  rallyWonByHomeTeam: Boolean
+#}
+
+type LinupPayload {
+  rallyWonByHomeTeam: Boolean
+  liberoPositionHomeTeam: Int
+  liberoPositionAwayTeam: Int
+  ListOfLineUpHomeTeam: Json
+  ListOfLineUpAwayTeam: Json
+}
+
+extend type Query {
+  getLineup(matchId: Int! setNr: Int!): LinupPayload!
+}

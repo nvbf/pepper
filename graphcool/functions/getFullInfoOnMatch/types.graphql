@@ -1,0 +1,99 @@
+extend type Query {
+  getFullMatchInfo(matchId: Int!): FullMatchInfo!
+}
+
+type FullMatchInfo {
+    matchID: Int #MID
+    matchStatus: Int # ST (0 = Not yet started, 1 = Running, 2 = Game Over)
+    matchDatetime: String # MDT
+    homeTeamID: Int #HID
+    guestTeamID: Int #GID
+    homeTeamName: String #HTN 
+    guestTeamName: String , #GTN
+    setWonHomeTeam: Int # WSH
+    setWonGuestTeam: Int #WSG
+    set1scoreHomeTeam: Int  # S1H (integer, optional):
+    set1scoreGuestTeam: Int  # S1G (integer, optional):
+    set2scoreHomeTeam: Int  # S2H (integer, optional):
+    set2scoreGuestTeam: Int  # S2G (integer, optional):
+    set3scoreHomeTeam: Int  # S3H (integer, optional):
+    set3scoreGuestTeam: Int  # S3G (integer, optional):
+    set4scoreHomeTeam: Int  # S4H (integer, optional):
+    set4scoreGuestTeam: Int  # S4G (integer, optional):
+    set5scoreHomeTeam: Int  # S5H (integer, optional):
+    set5scoreGuestTeam: Int  # S5G (integer, optional):
+    goldenSetscoreHomeTeam: Int  # GSH (integer, optional):
+    goldenSetscoreGuestTeam: Int  # GSG (integer, optional):
+    goldenSetPlayed: Boolean # GSP (boolean, optional):
+    set1Duration: Int  # TS1 (integer, optional):
+    set2Duration: Int  # TS2 (integer, optional):
+    set3Duration: Int  # TS3 (integer, optional):
+    set4Duration: Int  # TS4 (integer, optional):
+    set5Duration: Int  # TS5 (integer, optional):
+    goldenSetDuration: Int  # TGS (integer, optional):
+    timeOutSet1HomeTeam: Int #ToS1H (integer, optional): 
+    timeOutSet1GuestTeam: Int #ToS1G (integer, optional): 
+    timeOutSet2HomeTeam: Int #ToS2H (integer, optional): 
+    timeOutSet2GuestTeam: Int #ToS2G (integer, optional): 
+    timeOutSet3HomeTeam: Int #ToS3H (integer, optional): 
+    timeOutSet3GuestTeam: Int #ToS3G (integer, optional): 
+    timeOutSet4HomeTeam: Int #ToS4H (integer, optional): 
+    timeOutSet4GuestTeam: Int #ToS4G (integer, optional): 
+    timeOutSet5HomeTeam: Int #ToS5H (integer, optional): 
+    timeOutSet5GuestTeam: Int #ToS5G (integer, optional): 
+    timeOutGoldenSetHomeTeam: Int #ToGSH (integer, optional): 
+    timeOutGoldenSetGuestTeam: Int #ToGSG (integer, optional): 
+    currentSet: Int #CSet (integer, optional, read only): 
+    currentSetScoreHomeTeam: Int #CHP (integer, optional, read only): 
+    currentSetScoreGuestTeam: Int #CGP (integer, optional, read only): 
+    listOfPlayerStatisticsHomeTeam: Json #[PlayerStatistics!]  #PStatsH (Array[PlayerStatistics], optional): 
+    listOfPlayerStatisticsGuestTeam: Json #[PlayerStatistics!]  #PStatsG (Array[PlayerStatistics], optional): 
+    currentRotation: Json #WebApiLiveLineUp #CR (, optional): 
+    startingSix: Json #WebApiLiveLineUp #SSix (, optional):     
+}
+
+
+# On hold. Right now we need to use Json as a type. a Feature request is added to make it
+# possible to define severale types in a functions. 
+
+# type PlayerStatistics {
+#     NickName: String #SHN (string, optional),
+#     GoldenSet: Boolean #GS (boolean, optional):
+#     SetNumber: Int #SN (integer, optional):
+#     TeamID: Int #TID (integer, optional):
+#     PlayerID: Int #PID (integer, optional):
+#     Captain: Boolean #K (boolean, optional):
+#     Libero: Boolean #L (boolean, optional):
+#     ShirtNumber: Int #N (integer, optional):
+#     PlayerSurname: String #SR (string, optional):
+#     PlayerName: String #NM (string, optional):
+#     PointWhenServing: Int #PS (integer, optional):
+#     SideOut: Int #SOut (integer, optional):
+#     ServeAce: Int #SWin (integer, optional):
+#     ServeError: Int #SErr (integer, optional):
+#     ServeTotal: Int #STot (integer, optional):
+#     PerfectRecpetion: Int #RWin (integer, optional):
+#     ReceptionError: Int #RErr (integer, optional):
+#     ReceptionTotal: Int #RTot (integer, optional):
+#     SpikePoint: Int #SpWin (integer, optional):
+#     SpikeError: Int #SpErr (integer, optional):
+#     SpikeTotal: Int #SpTot (integer, optional):
+#     BlockWinning: Int #BWin (integer, optional):
+# }
+
+# type WebApiLiveLineUp {
+#     RallyWonByHomeTeam: Boolean #WinHG (boolean, optional): 
+#     LiberoPositionHomeTeam: Int #HLP (integer, optional): 
+#     LiberoPositionGuestTeam: Int  #GLP (integer, optional): 
+#     ListOfLineUpHomeTeam: [LineUp!] #LUPH (Array[LineUp], optional): 
+#     ListOfLineUpGuestTeam: [LineUp!] #LUPG (Array[LineUp], optional): 
+# }
+
+# type LineUp {
+#     ShirtNumber: Int #PN (integer, optional):
+#     Position: Int #PZ (integer, optional):
+#     PlayerID: Int #PID (integer, optional):
+#     HomeTeamPlayer: Boolean #HG (boolean, optional):
+#     Libero: Boolean #L (boolean, optional):
+#     RallyWonByHomeTeam: Boolean #WHG (boolean, optional):
+# }
