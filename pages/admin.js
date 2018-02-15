@@ -29,17 +29,19 @@ function AdminPage() {
   return (
     <Container>
       <ControlContainer>
-        <ShowButton overlayId="cj5jay5bn7ygz0161ikdw1l2o" text="Scoreboard" />
-        <ScoreControl matchId={matchId} />
+        <ShowButton id="scoreboard" text="Scoreboard" />
+        <ShowButton id="playerlist" text="PlayerList" />
+
+        {/* <ScoreControl matchId={matchId} /> */}
       </ControlContainer>
-      <ControlContainer>
+      {/*  <ControlContainer>
         <ShowButton overlayId="cj5krag1g1jev01939e6pv7kw" text="Home-Team PlayerList" />
         <PlayerData team="homeTeam" matchId={matchId} />
       </ControlContainer>
       <ControlContainer>
         <ShowButton overlayId="cj5xo6ust6z7c0120mne5zql9" text="Away-Team PlayerList" />
         <PlayerData team="awayTeam" matchId={matchId} />
-      </ControlContainer>
+      </ControlContainer> */}
     </Container>
   );
 }

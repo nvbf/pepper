@@ -13,12 +13,11 @@ export default class MyDocument extends Document {
           <title>Pepper</title>
           <meta name="viewport" content="initial-scale=1.0, width=device-width" />
           <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet" />
+          <link href="/static/base.css" rel="stylesheet" type="text/css" />
           {styleTags}
         </Head>
         <body>
-          <div className="root">
-            {main}
-          </div>
+          <div className="root">{main}</div>
           <NextScript />
         </body>
       </html>

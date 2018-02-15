@@ -21,7 +21,7 @@ export default function initApollo(initialState) {
   // Make sure to create a new client for every server-side request so that data
   // isn't shared between connections (which would be bad)
   const networkInterface = createNetworkInterface({
-    uri: 'https://api.graph.cool/simple/v1/pepper', // Server URL (must be absolute)
+    uri: 'http://localhost:5000/graphql', // Server URL (must be absolute)
     opts: {
       credentials: 'same-origin',
     },
@@ -35,7 +35,7 @@ export default function initApollo(initialState) {
   if (!apolloClient) {
     const networkInterfaceWithSubscriptions = addGraphQLSubscriptions(
       networkInterface,
-      new SubscriptionClient('wss://subscriptions.graph.cool/v1/pepper', {
+      new SubscriptionClient('ws://localhost:5000/subscriptions', {
         reconnect: true,
       }),
     );
